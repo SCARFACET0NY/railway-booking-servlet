@@ -1,6 +1,6 @@
 package com.anton.railway.booking.repository.db;
 
-import com.anton.railway.booking.exceptions.DataBaseConnectionException;
+import com.anton.railway.booking.exception.DataBaseConnectionException;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

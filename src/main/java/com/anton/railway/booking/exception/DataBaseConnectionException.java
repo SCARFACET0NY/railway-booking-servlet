@@ -1,4 +1,4 @@
-package com.anton.railway.booking.exceptions;
+package com.anton.railway.booking.exception;
 
 /**
  * Database connection Exception
