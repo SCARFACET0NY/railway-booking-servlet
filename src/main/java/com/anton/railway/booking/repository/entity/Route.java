@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class Route {
     private Long routeId;
-    private Long departureStation;
-    private Long arrivalStation;
+    private Long departureStationId;
+    private Long arrivalStationId;
     private Integer durationInMinutes;
     private BigDecimal basePrice;
     private String code;
