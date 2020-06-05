@@ -13,6 +13,7 @@ import com.anton.railway.booking.repository.entity.enums.TripStatus;
 import com.anton.railway.booking.service.TripService;
 
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,25 +61,50 @@ public class TripServiceImpl implements TripService {
         List<TripDto> tripDtoS = new ArrayList<>();
         List<Trip> trips = tripDao.findAllByTripStatus(TripStatus.SCHEDULED);
 
-        trips.forEach(trip -> {
-            Train train = trainDao.findById(trip.getTrainId()).orElse(null);
-            Route route = routeDao.findById(trip.getRouteId()).orElse(null);
-            Station departureStation = stationDao.findById(route.getDepartureStationId()).orElse(null);
-            Station arrivalStation = stationDao.findById(route.getArrivalStationId()).orElse(null);
-
-            LocalDateTime departure = LocalDateTime.of(trip.getDepartureDate(), trip.getDepartureTime());
-            LocalDateTime arrival = departure.plusMinutes(route.getDurationInMinutes());
-
-            tripDtoS.add(TripDto.builder()
-                    .trip(trip)
-                    .trainNumber(train.getTrainNumber())
-                    .departureCity(departureStation.getCity())
-                    .arrivalCity(arrivalStation.getCity())
-                    .departureTime(departure)
-                    .arrivalTime(arrival)
-                    .minPrice(route.getBasePrice().setScale(2, RoundingMode.HALF_UP)).build());
-        });
+        trips.forEach(trip -> tripDtoS.add(convertTripToTripDto(trip)));
 
         return tripDtoS;
     }
+
+    @Override
+    public List<TripDto> searchTrips(String departureCity, String arrivalCity) {
+        List<TripDto> trips = new ArrayList<>();
+        tripDao.searchTripsByDepartureCityAndArrivalCity(departureCity, arrivalCity).forEach(trip -> {
+            trips.add(convertTripToTripDto(trip));
+        });
+
+        return trips;
+    }
+
+    @Override
+    public List<TripDto> searchTrips(String departureCity, String arrivalCity, LocalDate date) {
+        List<TripDto> trips = new ArrayList<>();
+        tripDao.searchTripsByDepartureCityAndArrivalCityAndDate(departureCity, arrivalCity, date).forEach(trip -> {
+            trips.add(convertTripToTripDto(trip));
+        });
+
+        return trips;
+    }
+
+    @Override
+    public TripDto convertTripToTripDto(Trip trip) {
+        Train train = trainDao.findById(trip.getTrainId()).orElse(null);
+        Route route = routeDao.findById(trip.getRouteId()).orElse(null);
+        Station departureStation = stationDao.findById(route.getDepartureStationId()).orElse(null);
+        Station arrivalStation = stationDao.findById(route.getArrivalStationId()).orElse(null);
+
+        LocalDateTime departure = LocalDateTime.of(trip.getDepartureDate(), trip.getDepartureTime());
+        LocalDateTime arrival = departure.plusMinutes(route.getDurationInMinutes());
+
+        return TripDto.builder()
+                .trip(trip)
+                .trainNumber(train.getTrainNumber())
+                .departureCity(departureStation.getCity())
+                .arrivalCity(arrivalStation.getCity())
+                .departureTime(departure)
+                .arrivalTime(arrival)
+                .minPrice(route.getBasePrice().setScale(2, RoundingMode.HALF_UP)).build();
+    }
+
+
 }

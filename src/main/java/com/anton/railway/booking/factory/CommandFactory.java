@@ -1,8 +1,10 @@
 package com.anton.railway.booking.factory;
 
 import com.anton.railway.booking.command.Command;
+import com.anton.railway.booking.command.search.SearchCommand;
 import com.anton.railway.booking.command.view.IndexCommand;
 import com.anton.railway.booking.command.view.ScheduleCommand;
+import com.anton.railway.booking.command.view.SearchPageCommand;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +19,8 @@ public class CommandFactory {
         commands = new HashMap<>();
         commands.put("", new IndexCommand());
         commands.put("schedule", new ScheduleCommand(ServiceFactory.getTripService()));
+        commands.put("search", new SearchCommand(ServiceFactory.getTripService()));
+        commands.put("searchPage", new SearchPageCommand());
     }
 
     /**
