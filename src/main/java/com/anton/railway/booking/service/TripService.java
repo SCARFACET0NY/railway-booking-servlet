@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface TripService extends CrudService<Trip, Long> {
+    TripDto getTripDtoByTripId(Long id);
+
     List<TripDto> findAllScheduledTrips();
 
     List<TripDto> searchTrips(String departureCity, String arrivalCity);

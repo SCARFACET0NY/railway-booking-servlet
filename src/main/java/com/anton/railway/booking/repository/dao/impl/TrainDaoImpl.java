@@ -2,7 +2,6 @@ package com.anton.railway.booking.repository.dao.impl;
 
 import com.anton.railway.booking.repository.dao.TrainDao;
 import com.anton.railway.booking.repository.entity.Train;
-import com.anton.railway.booking.repository.entity.enums.TripStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

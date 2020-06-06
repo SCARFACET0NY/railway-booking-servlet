@@ -1,14 +1,8 @@
 package com.anton.railway.booking.service.impl;
 
-import com.anton.railway.booking.repository.dao.RouteDao;
-import com.anton.railway.booking.repository.dao.StationDao;
-import com.anton.railway.booking.repository.dao.TrainDao;
-import com.anton.railway.booking.repository.dao.TripDao;
+import com.anton.railway.booking.repository.dao.*;
 import com.anton.railway.booking.repository.dto.TripDto;
-import com.anton.railway.booking.repository.entity.Route;
-import com.anton.railway.booking.repository.entity.Station;
-import com.anton.railway.booking.repository.entity.Train;
-import com.anton.railway.booking.repository.entity.Trip;
+import com.anton.railway.booking.repository.entity.*;
 import com.anton.railway.booking.repository.entity.enums.TripStatus;
 import com.anton.railway.booking.service.TripService;
 
@@ -57,6 +51,11 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
+    public TripDto getTripDtoByTripId(Long id) {
+        return convertTripToTripDto(findById(id));
+    }
+
+    @Override
     public List<TripDto> findAllScheduledTrips() {
         List<TripDto> tripDtoS = new ArrayList<>();
         List<Trip> trips = tripDao.findAllByTripStatus(TripStatus.SCHEDULED);
@@ -98,11 +97,12 @@ public class TripServiceImpl implements TripService {
 
         return TripDto.builder()
                 .trip(trip)
-                .trainNumber(train.getTrainNumber())
+                .train(train)
                 .departureCity(departureStation.getCity())
                 .arrivalCity(arrivalStation.getCity())
                 .departureTime(departure)
                 .arrivalTime(arrival)
+                .durationInMinutes(route.getDurationInMinutes())
                 .minPrice(route.getBasePrice().setScale(2, RoundingMode.HALF_UP)).build();
     }
 

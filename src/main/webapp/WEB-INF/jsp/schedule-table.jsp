@@ -22,7 +22,7 @@
             <fmt:parseDate  value="${trip.departureTime}" type="date" pattern="yyyy-MM-dd'T'HH:mm" var="departureTime"/>
             <fmt:parseDate  value="${trip.arrivalTime}" type="date" pattern="yyyy-MM-dd'T'HH:mm" var="arrivalTime"/>
             <tr>
-                <td>${trip.trainNumber}</td>
+                <td>${trip.train.trainNumber}</td>
                 <td>${trip.departureCity}</td>
                 <td>${trip.arrivalCity}</td>
                 <td><fmt:formatDate value="${departureTime}" pattern="yyyy-MM-dd HH:mm"/></td>

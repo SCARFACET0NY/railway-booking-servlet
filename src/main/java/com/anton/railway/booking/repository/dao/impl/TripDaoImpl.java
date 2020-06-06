@@ -16,6 +16,8 @@ public class TripDaoImpl implements TripDao {
     private static final Logger LOG = LogManager.getLogger(TripDaoImpl.class);
     private final Connection connection;
 
+    private final String FIND_TRIP_BY_ID = "SELECT trip_id, departure_date, departure_time, trip_status, " +
+            "route_id, train_id FROM trip WHERE trip_id = ?";
     private final String FIND_TRIPS_BY_STATUS = "SELECT trip_id, departure_date, departure_time, trip_status, " +
             "route_id, train_id FROM trip WHERE trip_status = ?";
     private final String FIND_TRIPS_BY_DEPARTURE_CITY_AND_ARRIVAL_CITY = "SELECT trip_id, departure_date, " +
@@ -37,7 +39,25 @@ public class TripDaoImpl implements TripDao {
 
     @Override
     public Optional<Trip> findById(Long id) {
-        return Optional.empty();
+        Trip trip = null;
+        try (PreparedStatement preparedStatement = this.connection.prepareStatement(FIND_TRIP_BY_ID)) {
+            preparedStatement.setLong(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                trip = new Trip();
+                trip.setTripId(rs.getLong("trip_id"));
+                trip.setDepartureDate(rs.getDate("departure_date").toLocalDate());
+                trip.setDepartureTime(rs.getTime("departure_time").toLocalTime());
+                trip.setTripStatus(TripStatus.valueOf(rs.getString("trip_status")));
+                trip.setRouteId(rs.getLong("route_id"));
+                trip.setTrainId(rs.getLong("train_id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return Optional.ofNullable(trip);
     }
 
     @Override

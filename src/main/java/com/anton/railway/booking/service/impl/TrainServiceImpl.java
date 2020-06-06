@@ -1,16 +1,26 @@
 package com.anton.railway.booking.service.impl;
 
 import com.anton.railway.booking.repository.dao.TrainDao;
+import com.anton.railway.booking.repository.dao.WagonDao;
+import com.anton.railway.booking.repository.dao.WagonTypeDao;
 import com.anton.railway.booking.repository.entity.Train;
+import com.anton.railway.booking.repository.entity.Wagon;
+import com.anton.railway.booking.repository.entity.enums.WagonClass;
 import com.anton.railway.booking.service.TrainService;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class TrainServiceImpl implements TrainService {
     private final TrainDao trainDao;
+    private final WagonDao wagonDao;
+    private final WagonTypeDao wagonTypeDao;
 
-    public TrainServiceImpl(TrainDao trainDao) {
+    public TrainServiceImpl(TrainDao trainDao, WagonDao wagonDao, WagonTypeDao wagonTypeDao) {
         this.trainDao = trainDao;
+        this.wagonDao = wagonDao;
+        this.wagonTypeDao = wagonTypeDao;
     }
 
     @Override
@@ -36,5 +46,16 @@ public class TrainServiceImpl implements TrainService {
     @Override
     public void deleteById(Long id) {
         trainDao.deleteById(id);
+    }
+
+    @Override
+    public Set<WagonClass> getWagonClassesForTrain(Train train) {
+        List<Wagon> wagons = wagonDao.findWagonsByTrainId(train.getTrainId());
+        Set<WagonClass> wagonClasses = new HashSet<>();
+        wagons.forEach(wagon -> {
+            wagonClasses.add(wagonTypeDao.findById(wagon.getWagonTypeId()).orElse(null).getWagonClass());
+        });
+
+        return wagonClasses;
     }
 }

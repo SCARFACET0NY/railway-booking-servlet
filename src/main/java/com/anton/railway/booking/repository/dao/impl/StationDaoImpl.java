@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class StationDaoImpl implements StationDao {
-    private static final Logger LOG = LogManager.getLogger(RouteDaoImpl.class);
+    private static final Logger LOG = LogManager.getLogger(StationDaoImpl.class);
     private final Connection connection;
 
     private final String FIND_STATION_BY_ID= "SELECT station_id, title, city, country, code FROM station " +

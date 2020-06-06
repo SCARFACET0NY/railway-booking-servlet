@@ -1,26 +1,30 @@
 package com.anton.railway.booking.factory;
 
-import com.anton.railway.booking.repository.dao.RouteDao;
-import com.anton.railway.booking.repository.dao.StationDao;
-import com.anton.railway.booking.repository.dao.TrainDao;
-import com.anton.railway.booking.repository.dao.TripDao;
-import com.anton.railway.booking.repository.dao.impl.RouteDaoImpl;
-import com.anton.railway.booking.repository.dao.impl.StationDaoImpl;
-import com.anton.railway.booking.repository.dao.impl.TrainDaoImpl;
-import com.anton.railway.booking.repository.dao.impl.TripDaoImpl;
+import com.anton.railway.booking.repository.dao.*;
+import com.anton.railway.booking.repository.dao.impl.*;
 import com.anton.railway.booking.repository.db.DBCPDataSource;
 
 public class DaoFactory {
     private static RouteDao routeDao;
+    private static SeatDao seatDao;
     private static StationDao stationDao;
+    private static TicketDao ticketDao;
     private static TrainDao trainDao;
     private static TripDao tripDao;
+    private static TripSeatDao tripSeatDao;
+    private static WagonDao wagonDao;
+    private static WagonTypeDao wagonTypeDao;
 
     static {
         routeDao = new RouteDaoImpl(DBCPDataSource.getConnection());
+        seatDao = new SeatDaoImpl(DBCPDataSource.getConnection());
         stationDao = new StationDaoImpl(DBCPDataSource.getConnection());
+        ticketDao = new TicketDaoImpl(DBCPDataSource.getConnection());
         trainDao = new TrainDaoImpl(DBCPDataSource.getConnection());
         tripDao = new TripDaoImpl(DBCPDataSource.getConnection());
+        tripSeatDao = new TripSeatDaoImpl(DBCPDataSource.getConnection());
+        wagonDao = new WagonDaoImpl(DBCPDataSource.getConnection());
+        wagonTypeDao = new WagonTypeDaoImpl(DBCPDataSource.getConnection());
     }
 
     public DaoFactory() {}
@@ -29,8 +33,16 @@ public class DaoFactory {
         return routeDao;
     }
 
+    public static SeatDao getSeatDao() {
+        return seatDao;
+    }
+
     public static StationDao getStationDao() {
         return stationDao;
+    }
+
+    public static TicketDao getTicketDao() {
+        return ticketDao;
     }
 
     public static TrainDao getTrainDao() {
@@ -39,5 +51,17 @@ public class DaoFactory {
 
     public static TripDao getTripDao() {
         return tripDao;
+    }
+
+    public static TripSeatDao getTripSeatDao() {
+        return tripSeatDao;
+    }
+
+    public static WagonDao getWagonDao() {
+        return wagonDao;
+    }
+
+    public static WagonTypeDao getWagonTypeDao() {
+        return wagonTypeDao;
     }
 }
