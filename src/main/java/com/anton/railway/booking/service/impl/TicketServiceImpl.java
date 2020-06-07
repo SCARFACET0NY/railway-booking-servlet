@@ -2,7 +2,9 @@ package com.anton.railway.booking.service.impl;
 
 import com.anton.railway.booking.repository.dao.TicketDao;
 import com.anton.railway.booking.repository.dao.WagonTypeDao;
+import com.anton.railway.booking.repository.dto.TicketDto;
 import com.anton.railway.booking.repository.dto.TripDto;
+import com.anton.railway.booking.repository.dto.TripSeatDto;
 import com.anton.railway.booking.repository.entity.Ticket;
 import com.anton.railway.booking.repository.entity.TripSeat;
 import com.anton.railway.booking.repository.entity.Wagon;
@@ -54,5 +56,14 @@ public class TicketServiceImpl implements TicketService {
         return Ticket.builder()
                 .tripSeatId(tripSeat.getTripSeatId())
                 .price(price).build();
+    }
+
+    @Override
+    public TicketDto createTicketDto(Ticket ticket, TripDto tripDto, TripSeatDto tripSeatDto, String wagonNumber) {
+        return TicketDto.builder()
+                .ticket(ticket)
+                .tripDto(tripDto)
+                .tripSeatDto(tripSeatDto)
+                .wagonNumber(wagonNumber).build();
     }
 }

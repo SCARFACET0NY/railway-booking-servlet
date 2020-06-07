@@ -5,6 +5,7 @@ import com.anton.railway.booking.repository.dao.impl.*;
 import com.anton.railway.booking.repository.db.DBCPDataSource;
 
 public class DaoFactory {
+    private static PaymentDao paymentDao;
     private static RouteDao routeDao;
     private static SeatDao seatDao;
     private static StationDao stationDao;
@@ -16,6 +17,7 @@ public class DaoFactory {
     private static WagonTypeDao wagonTypeDao;
 
     static {
+        paymentDao = new PaymentDaoImpl(DBCPDataSource.getConnection());
         routeDao = new RouteDaoImpl(DBCPDataSource.getConnection());
         seatDao = new SeatDaoImpl(DBCPDataSource.getConnection());
         stationDao = new StationDaoImpl(DBCPDataSource.getConnection());
@@ -28,6 +30,10 @@ public class DaoFactory {
     }
 
     public DaoFactory() {}
+
+    public static PaymentDao getPaymentDao() {
+        return paymentDao;
+    }
 
     public static RouteDao getRouteDao() {
         return routeDao;

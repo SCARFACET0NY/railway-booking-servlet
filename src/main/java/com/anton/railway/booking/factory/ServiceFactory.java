@@ -4,6 +4,7 @@ import com.anton.railway.booking.service.*;
 import com.anton.railway.booking.service.impl.*;
 
 public class ServiceFactory {
+    private static PaymentService paymentService;
     private static RouteService routeService;
     private static StationService stationService;
     private static TicketService ticketService;
@@ -13,6 +14,7 @@ public class ServiceFactory {
     private static WagonService wagonService;
 
     static {
+        paymentService = new PaymentServiceImpl(DaoFactory.getPaymentDao(), DaoFactory.getTicketDao());
         routeService = new RouteServiceImpl(DaoFactory.getRouteDao());
         stationService = new StationServiceImpl(DaoFactory.getStationDao());
         ticketService = new TicketServiceImpl(DaoFactory.getTicketDao(), DaoFactory.getWagonTypeDao());
@@ -25,6 +27,10 @@ public class ServiceFactory {
     }
 
     public ServiceFactory() {}
+
+    public static PaymentService getPaymentService() {
+        return paymentService;
+    }
 
     public static RouteService getRouteService() {
         return routeService;

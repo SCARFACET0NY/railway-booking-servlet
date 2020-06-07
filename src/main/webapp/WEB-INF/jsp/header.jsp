@@ -25,7 +25,7 @@
         </div>
 
         <c:choose>
-            <c:when test="${not empty user}">
+            <c:when test="${true}">
                 <div class="btn-group btn-group-lg">
                     <div class="btn-group">
                         <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
@@ -37,12 +37,13 @@
                             </span>
                         </button>
                         <div class="dropdown-menu">
-                            <c:forEach items="${cart.values()}" var="ticket">
-                                <span class="dropdown-item">${ticket.exposition.title} : ${ticket.exposition.price}</span>
+                            <c:forEach items="${sessionScope.cart.values()}" var="ticket">
+                                <span class="dropdown-item">${ticket.tripDto.departureCity} -
+                                        ${ticket.tripDto.arrivalCity}: ${ticket.ticket.price}</span>
                                 <div class="dropdown-divider"></div>
                             </c:forEach>
                             <span class="dropdown-item">
-                                total: 0.00
+                                total: ${sessionScope.total}
                             </span>
                         </div>
                     </div>

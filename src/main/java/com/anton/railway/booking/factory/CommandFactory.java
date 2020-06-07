@@ -1,6 +1,7 @@
 package com.anton.railway.booking.factory;
 
 import com.anton.railway.booking.command.Command;
+import com.anton.railway.booking.command.cart.AddTicketCommand;
 import com.anton.railway.booking.command.search.SearchCommand;
 import com.anton.railway.booking.command.ticket.*;
 import com.anton.railway.booking.command.view.IndexCommand;
@@ -20,6 +21,8 @@ public class CommandFactory {
     static {
         commands = new HashMap<>();
         commands.put("", new IndexCommand());
+        commands.put("addTicket", new AddTicketCommand(
+                ServiceFactory.getPaymentService(), ServiceFactory.getTicketService()));
         commands.put("schedule", new ScheduleCommand(ServiceFactory.getTripService()));
         commands.put("search", new SearchCommand(ServiceFactory.getTripService()));
         commands.put("searchPage", new SearchPageCommand());
