@@ -2,6 +2,7 @@ package com.anton.railway.booking.factory;
 
 import com.anton.railway.booking.service.*;
 import com.anton.railway.booking.service.impl.*;
+import com.anton.railway.booking.util.UpdatableBCrypt;
 
 public class ServiceFactory {
     private static PaymentService paymentService;
@@ -12,6 +13,7 @@ public class ServiceFactory {
     private static TripService tripService;
     private static TripSeatService tripSeatService;
     private static WagonService wagonService;
+    private static UserService userService;
 
     static {
         paymentService = new PaymentServiceImpl(DaoFactory.getPaymentDao(), DaoFactory.getTicketDao());
@@ -24,6 +26,7 @@ public class ServiceFactory {
                 DaoFactory.getTrainDao());
         tripSeatService = new TripSeatServiceImpl(DaoFactory.getSeatDao(), DaoFactory.getTripSeatDao());
         wagonService = new WagonServiceImpl(DaoFactory.getWagonDao(), DaoFactory.getWagonTypeDao());
+        userService = new UserServiceImpl(DaoFactory.getUserDao(), new UpdatableBCrypt(11));
     }
 
     public ServiceFactory() {}
@@ -58,5 +61,9 @@ public class ServiceFactory {
 
     public static WagonService getWagonService() {
         return wagonService;
+    }
+
+    public static UserService getUserService() {
+        return userService;
     }
 }

@@ -25,7 +25,7 @@
         </div>
 
         <c:choose>
-            <c:when test="${true}">
+            <c:when test="${not empty sessionScope.user}">
                 <div class="btn-group btn-group-lg">
                     <div class="btn-group">
                         <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">

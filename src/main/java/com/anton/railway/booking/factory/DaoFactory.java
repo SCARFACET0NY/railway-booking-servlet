@@ -15,6 +15,7 @@ public class DaoFactory {
     private static TripSeatDao tripSeatDao;
     private static WagonDao wagonDao;
     private static WagonTypeDao wagonTypeDao;
+    private static UserDao userDao;
 
     static {
         paymentDao = new PaymentDaoImpl(DBCPDataSource.getConnection());
@@ -27,6 +28,7 @@ public class DaoFactory {
         tripSeatDao = new TripSeatDaoImpl(DBCPDataSource.getConnection());
         wagonDao = new WagonDaoImpl(DBCPDataSource.getConnection());
         wagonTypeDao = new WagonTypeDaoImpl(DBCPDataSource.getConnection());
+        userDao = new UserDaoImpl(DBCPDataSource.getConnection());
     }
 
     public DaoFactory() {}
@@ -69,5 +71,9 @@ public class DaoFactory {
 
     public static WagonTypeDao getWagonTypeDao() {
         return wagonTypeDao;
+    }
+
+    public static UserDao getUserDao() {
+        return userDao;
     }
 }
