@@ -1,15 +1,15 @@
 package com.anton.railway.booking.repository.entity;
 
 import com.anton.railway.booking.repository.entity.enums.AccountStatus;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
     private Long userId;
     private String firstName;

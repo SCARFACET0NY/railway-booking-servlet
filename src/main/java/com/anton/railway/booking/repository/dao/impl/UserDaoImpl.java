@@ -6,10 +6,7 @@ import com.anton.railway.booking.repository.entity.enums.AccountStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,9 +15,12 @@ public class UserDaoImpl implements UserDao {
     private final Connection connection;
 
     private final String CHECK_USER = "SELECT user_id FROM `user` WHERE username = ?";
+    private final String CREATE_USER = "INSERT INTO `user` (first_name, last_name, phone, email, date_joined, " +
+            "card_number, username, password, account_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private final String FIND_USER_BY_ID = "SELECT user_id, first_name, last_name, phone, email, date_joined, " +
             "card_number, username, password, account_status FROM `user` WHERE user_id = ? ";
     private final String GET_PASSWORD = "SELECT password FROM `user` WHERE username = ?";
+    private final String LAST_ID = "SELECT LAST_INSERT_ID()";
 
     public UserDaoImpl(Connection connection) {
         this.connection = connection;
@@ -59,7 +59,30 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Long save(User user) {
-        return null;
+        long id = -1;
+        try (
+                PreparedStatement statement = this.connection.prepareStatement(CREATE_USER);
+                Statement idStatement = this.connection.createStatement()
+        ) {
+            statement.setString(1, user.getFirstName());
+            statement.setString(2, user.getLastName());
+            statement.setString(3, user.getPhone());
+            statement.setString(4, user.getEmail());
+            statement.setTimestamp(5, Timestamp.valueOf(user.getDateJoined()));
+            statement.setLong(6, user.getCardNumber());
+            statement.setString(7, user.getUsername());
+            statement.setString(8, user.getPassword());
+            statement.setString(9, user.getAccountStatus().toString());
+            statement.execute();
+
+            ResultSet rs = idStatement.executeQuery(LAST_ID);
+            while (rs.next()) {
+                id = rs.getLong(1);
+            }
+        } catch (SQLException e) {
+            LOG.error("New user creation failed.", e);
+        }
+        return id;
     }
 
     @Override

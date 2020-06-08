@@ -12,8 +12,8 @@ public class ServiceFactory {
     private static TrainService trainService;
     private static TripService tripService;
     private static TripSeatService tripSeatService;
-    private static WagonService wagonService;
     private static UserService userService;
+    private static WagonService wagonService;
 
     static {
         paymentService = new PaymentServiceImpl(DaoFactory.getPaymentDao(), DaoFactory.getTicketDao());
@@ -25,8 +25,8 @@ public class ServiceFactory {
         tripService = new TripServiceImpl(DaoFactory.getRouteDao(), DaoFactory.getStationDao(), DaoFactory.getTripDao(),
                 DaoFactory.getTrainDao());
         tripSeatService = new TripSeatServiceImpl(DaoFactory.getSeatDao(), DaoFactory.getTripSeatDao());
+        userService = new UserServiceImpl(new UpdatableBCrypt(11), DaoFactory.getUserDao());
         wagonService = new WagonServiceImpl(DaoFactory.getWagonDao(), DaoFactory.getWagonTypeDao());
-        userService = new UserServiceImpl(DaoFactory.getUserDao(), new UpdatableBCrypt(11));
     }
 
     public ServiceFactory() {}

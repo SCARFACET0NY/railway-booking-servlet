@@ -2,18 +2,20 @@ package com.anton.railway.booking.service.impl;
 
 import com.anton.railway.booking.repository.dao.UserDao;
 import com.anton.railway.booking.repository.entity.User;
+import com.anton.railway.booking.repository.entity.enums.AccountStatus;
 import com.anton.railway.booking.service.UserService;
 import com.anton.railway.booking.util.UpdatableBCrypt;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    private final UserDao userDao;
     private final UpdatableBCrypt bCrypt;
+    private final UserDao userDao;
 
-    public UserServiceImpl(UserDao userDao, UpdatableBCrypt bCrypt) {
-        this.userDao = userDao;
+    public UserServiceImpl(UpdatableBCrypt bCrypt, UserDao userDao) {
         this.bCrypt = bCrypt;
+        this.userDao = userDao;
     }
 
     @Override
@@ -39,6 +41,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteById(Long id) {
         userDao.deleteById(id);
+    }
+
+    @Override
+    public Long registerUser(String firstName, String lastName, String phone, String email, LocalDateTime dateJoined,
+                             Long cardNumber, String userName, String password, AccountStatus status) {
+
+        User user = User.builder().firstName(firstName).lastName(lastName).phone(phone).email(email)
+                .dateJoined(dateJoined).cardNumber(cardNumber).username(userName).password(bCrypt.hash(password))
+                .accountStatus(status).build();
+
+        return userDao.save(user);
     }
 
     @Override
