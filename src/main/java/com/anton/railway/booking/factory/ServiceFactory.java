@@ -5,6 +5,7 @@ import com.anton.railway.booking.service.impl.*;
 import com.anton.railway.booking.util.UpdatableBCrypt;
 
 public class ServiceFactory {
+    private static EmailService emailService;
     private static PaymentService paymentService;
     private static RouteService routeService;
     private static StationService stationService;
@@ -16,7 +17,8 @@ public class ServiceFactory {
     private static WagonService wagonService;
 
     static {
-        paymentService = new PaymentServiceImpl(DaoFactory.getPaymentDao(), DaoFactory.getTicketDao());
+        emailService = new EmailServiceImpl();
+        paymentService = new PaymentServiceImpl(DaoFactory.getPaymentDao());
         routeService = new RouteServiceImpl(DaoFactory.getRouteDao());
         stationService = new StationServiceImpl(DaoFactory.getStationDao());
         ticketService = new TicketServiceImpl(DaoFactory.getTicketDao(), DaoFactory.getWagonTypeDao());
@@ -30,6 +32,10 @@ public class ServiceFactory {
     }
 
     public ServiceFactory() {}
+
+    public static EmailService getEmailService() {
+        return emailService;
+    }
 
     public static PaymentService getPaymentService() {
         return paymentService;

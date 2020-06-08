@@ -6,14 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class IndexCommand implements Command {
+public class CartCommand implements Command {
     @Override
     public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if (req.getSession().getAttribute("mailSuccess") != null) {
-            req.setAttribute("mailSuccess", req.getSession().getAttribute("mailSuccess"));
-            req.getSession().setAttribute("mailSuccess", null);
-        }
-
-        return new String[] {"index", "forward"};
+        return new String[] {"cart", "forward"};
     }
 }
