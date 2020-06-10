@@ -46,13 +46,18 @@ public class TripSeatServiceImpl implements TripSeatService {
     }
 
     @Override
-    public List<TripSeatDto> findWagonFreeSeatsForTrip(Long tripId, Long wagonId) {
+    public List<TripSeatDto> findWagonsFreeSeatsForTrip(Long tripId, Long wagonId) {
         List<TripSeatDto> seats = new ArrayList<>();
         tripSeatDao.findTripSeatsForWagonByStatus(tripId, wagonId, SeatStatus.FREE).forEach(tripSeat -> {
             seats.add(convertTripSeatToTripSeatDto(tripSeat));
         });
 
         return seats;
+    }
+
+    @Override
+    public List<TripSeat> findOccupiedSeatsByTripId(Long id) {
+        return tripSeatDao.findTripSeatsForTripByStatus(id, SeatStatus.OCCUPIED);
     }
 
     @Override

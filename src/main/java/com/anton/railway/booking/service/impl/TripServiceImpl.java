@@ -66,6 +66,16 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
+    public List<TripDto> findScheduledTripsForDate(LocalDate date) {
+        List<TripDto> tripDtoS = new ArrayList<>();
+        List<Trip> trips = tripDao.findAllByTripStatusAndDate(TripStatus.SCHEDULED, date);
+
+        trips.forEach(trip -> tripDtoS.add(convertTripToTripDto(trip)));
+
+        return tripDtoS;
+    }
+
+    @Override
     public List<TripDto> searchTrips(String departureCity, String arrivalCity) {
         List<TripDto> trips = new ArrayList<>();
         tripDao.searchTripsByDepartureCityAndArrivalCity(departureCity, arrivalCity).forEach(trip -> {

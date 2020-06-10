@@ -25,24 +25,24 @@ public class SecurityFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) servletResponse;
         User user = (User) req.getSession().getAttribute("user");
 
-        if (!req.getRequestURI().startsWith("/schedule")
-                && !req.getRequestURI().startsWith("/searchPage")
+        if (!req.getRequestURI().equals("/schedule")
+                && !req.getRequestURI().equals("/searchPage")
                 && !req.getRequestURI().startsWith("/search")
                 && !req.getRequestURI().startsWith("/css")
                 && !req.getRequestURI().startsWith("/img")
                 && !req.getRequestURI().equals("/login")
                 && !req.getRequestURI().equals("/register")
                 && !req.getRequestURI().equals("/")) {
-            if (user == null) {
+            if (req.getRequestURI().startsWith("/admin")) {
+                if (user != null && user.getAccountStatus().equals(AccountStatus.ADMIN)) {
+                    filterChain.doFilter(req, res);
+                } else {
+                    res.sendRedirect("/");
+                }
+            } else if (user == null) {
                 res.sendRedirect("/login");
             } else {
                 filterChain.doFilter(req, res);
-            }
-        } else if (req.getRequestURI().startsWith("/admin")) {
-            if (user != null && user.getAccountStatus().equals(AccountStatus.ADMIN)) {
-                filterChain.doFilter(req, res);
-            } else {
-                res.sendRedirect("/");
             }
         } else  {
             filterChain.doFilter(req, res);

@@ -55,6 +55,11 @@
                     </button>
                 </div>
 
+                <c:if test="${user.accountStatus == 'ADMIN'}">
+                    <a type="button" class="btn btn-light btn-lg" href="/admin">
+                        Admin
+                    </a>
+                </c:if>
                 <a type="button" class="btn btn-light btn-lg" href="/logout">
                     Logout
                 </a>

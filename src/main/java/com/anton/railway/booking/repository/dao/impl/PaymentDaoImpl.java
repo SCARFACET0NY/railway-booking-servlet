@@ -19,15 +19,35 @@ public class PaymentDaoImpl implements PaymentDao {
     private final String CREATE_TICKET = "INSERT INTO ticket (trip_seat_id, price, payment_id) " +
             "VALUES (?, ?, ?)";
     private final String CHANGE_SEAT_STATUS = "UPDATE trip_seat SET status = ? WHERE trip_seat_id = ?";
+    private final String DELETE_PAYMENT_BY_ID = "DELETE FROM payment WHERE payment_id = ?";
+    private final String FIND_PAYMENT_BY_ID = "SELECT payment_id, payment_date, total, user_id " +
+            "FROM payment WHERE payment_id = ?";
     private final String LAST_ID = "SELECT LAST_INSERT_ID()";
+    private final String UPDATE_PAYMENT = "UPDATE payment SET total = ? WHERE payment_id = ?";
 
     public PaymentDaoImpl(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    public Optional<Payment> findById(Long aLong) {
-        return Optional.empty();
+    public Optional<Payment> findById(Long id) {
+        Payment payment = null;
+        try (PreparedStatement preparedStatement = this.connection.prepareStatement(FIND_PAYMENT_BY_ID)) {
+            preparedStatement.setLong(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                payment = new Payment();
+                payment.setPaymentId(rs.getLong("payment_id"));
+                payment.setPaymentDate(rs.getTimestamp("payment_date").toLocalDateTime());
+                payment.setTotal(rs.getBigDecimal("total"));
+                payment.setUserId(rs.getLong("user_id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return Optional.ofNullable(payment);
     }
 
     @Override
@@ -37,7 +57,16 @@ public class PaymentDaoImpl implements PaymentDao {
 
     @Override
     public Long save(Payment payment) {
-        return null;
+        try (PreparedStatement preparedStatement = this.connection.prepareStatement(UPDATE_PAYMENT)) {
+            preparedStatement.setBigDecimal(1, payment.getTotal());
+            preparedStatement.setLong(2, payment.getPaymentId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return payment.getPaymentId();
     }
 
     @Override
@@ -47,7 +76,12 @@ public class PaymentDaoImpl implements PaymentDao {
 
     @Override
     public void delete(Payment payment) {
-
+        try (PreparedStatement preparedStatement = this.connection.prepareStatement(DELETE_PAYMENT_BY_ID)) {
+            preparedStatement.setLong(1, payment.getPaymentId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

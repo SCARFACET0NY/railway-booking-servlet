@@ -11,6 +11,8 @@ public interface TripService extends CrudService<Trip, Long> {
 
     List<TripDto> findAllScheduledTrips();
 
+    List<TripDto> findScheduledTripsForDate(LocalDate date);
+
     List<TripDto> searchTrips(String departureCity, String arrivalCity);
 
     List<TripDto> searchTrips(String departureCity, String arrivalCity, LocalDate date);

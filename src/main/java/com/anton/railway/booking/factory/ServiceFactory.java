@@ -21,7 +21,9 @@ public class ServiceFactory {
         paymentService = new PaymentServiceImpl(DaoFactory.getPaymentDao());
         routeService = new RouteServiceImpl(DaoFactory.getRouteDao());
         stationService = new StationServiceImpl(DaoFactory.getStationDao());
-        ticketService = new TicketServiceImpl(DaoFactory.getTicketDao(), DaoFactory.getWagonTypeDao());
+        ticketService = new TicketServiceImpl(DaoFactory.getPaymentDao(), DaoFactory.getSeatDao(),
+                DaoFactory.getTripSeatDao(), DaoFactory.getTicketDao(), DaoFactory.getUserDao(),
+                DaoFactory.getWagonDao(), DaoFactory.getWagonTypeDao());
         trainService = new TrainServiceImpl(
                 DaoFactory.getTrainDao(), DaoFactory.getWagonDao(), DaoFactory.getWagonTypeDao());
         tripService = new TripServiceImpl(DaoFactory.getRouteDao(), DaoFactory.getStationDao(), DaoFactory.getTripDao(),

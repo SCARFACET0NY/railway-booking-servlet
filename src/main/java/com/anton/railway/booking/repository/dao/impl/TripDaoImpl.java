@@ -20,6 +20,8 @@ public class TripDaoImpl implements TripDao {
             "route_id, train_id FROM trip WHERE trip_id = ?";
     private final String FIND_TRIPS_BY_STATUS = "SELECT trip_id, departure_date, departure_time, trip_status, " +
             "route_id, train_id FROM trip WHERE trip_status = ?";
+    private final String FIND_TRIPS_BY_STATUS_AND_DATE = "SELECT trip_id, departure_date, departure_time, trip_status, " +
+            "route_id, train_id FROM trip WHERE trip_status = ? AND departure_date = ?";
     private final String FIND_TRIPS_BY_DEPARTURE_CITY_AND_ARRIVAL_CITY = "SELECT trip_id, departure_date, " +
             "departure_time, trip_status, trip.route_id, train_id FROM trip " +
             "LEFT JOIN route ON trip.route_id = route.route_id " +
@@ -86,6 +88,33 @@ public class TripDaoImpl implements TripDao {
         Trip trip = null;
         try (PreparedStatement statement = this.connection.prepareStatement(FIND_TRIPS_BY_STATUS)) {
             statement.setString(1, status.toString());
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                trip = new Trip();
+                trip.setTripId(rs.getLong("trip_id"));
+                trip.setDepartureDate(rs.getDate("departure_date").toLocalDate());
+                trip.setDepartureTime(rs.getTime("departure_time").toLocalTime());
+                trip.setTripStatus(TripStatus.valueOf(rs.getString("trip_status")));
+                trip.setRouteId(rs.getLong("route_id"));
+                trip.setTrainId(rs.getLong("train_id"));
+
+                trips.add(trip);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return trips;
+    }
+
+    @Override
+    public List<Trip> findAllByTripStatusAndDate(TripStatus status, LocalDate date) {
+        List<Trip> trips = new ArrayList<>();
+        Trip trip = null;
+        try (PreparedStatement statement = this.connection.prepareStatement(FIND_TRIPS_BY_STATUS_AND_DATE)) {
+            statement.setString(1, status.toString());
+            statement.setString(2, date.toString());
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {

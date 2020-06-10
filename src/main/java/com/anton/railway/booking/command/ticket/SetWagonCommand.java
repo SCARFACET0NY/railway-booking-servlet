@@ -24,7 +24,7 @@ public class SetWagonCommand implements Command {
         TripDto tripDto = (TripDto) req.getSession().getAttribute("trip");
         req.getSession().setAttribute("selectedWagon", wagonService.findById(wagon_id));
         req.getSession().setAttribute("seats",
-                tripSeatService.findWagonFreeSeatsForTrip(tripDto.getTrip().getTripId(), wagon_id));
+                tripSeatService.findWagonsFreeSeatsForTrip(tripDto.getTrip().getTripId(), wagon_id));
 
         return new String[] {"trip", "redirect"};
     }

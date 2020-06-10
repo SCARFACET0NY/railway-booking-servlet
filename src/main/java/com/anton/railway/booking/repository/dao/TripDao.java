@@ -9,6 +9,8 @@ import java.util.List;
 public interface TripDao extends Dao<Trip, Long> {
     List<Trip> findAllByTripStatus(TripStatus status);
 
+    List<Trip> findAllByTripStatusAndDate(TripStatus status, LocalDate date);
+
     List<Trip> searchTripsByDepartureCityAndArrivalCity(String departureCity, String arrivalCity);
 
     List<Trip> searchTripsByDepartureCityAndArrivalCityAndDate(String departureCity, String arrivalCity, LocalDate date);
