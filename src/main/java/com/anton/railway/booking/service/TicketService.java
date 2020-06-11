@@ -15,5 +15,7 @@ public interface TicketService extends CrudService<Ticket, Long> {
 
     TicketDto createTicketDto(Ticket ticket, TripDto tripDto, TripSeatDto tripSeatDto, String wagonNumber);
 
+    Ticket changeTicketPrice(Ticket ticket, Wagon oldWagon, Wagon newWagon);
+
     List<PaidTicket> findPaidTicketsByTripId(Long id);
 }

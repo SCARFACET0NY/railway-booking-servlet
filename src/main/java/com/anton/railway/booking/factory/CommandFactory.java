@@ -1,9 +1,7 @@
 package com.anton.railway.booking.factory;
 
 import com.anton.railway.booking.command.Command;
-import com.anton.railway.booking.command.admin.CancelTicketCommand;
-import com.anton.railway.booking.command.admin.ChooseTripCommand;
-import com.anton.railway.booking.command.admin.ChooseTripDateCommand;
+import com.anton.railway.booking.command.admin.*;
 import com.anton.railway.booking.command.cart.AddTicketCommand;
 import com.anton.railway.booking.command.cart.PayCommand;
 import com.anton.railway.booking.command.cart.RemoveTicketCommand;
@@ -31,8 +29,14 @@ public class CommandFactory {
                 ServiceFactory.getPaymentService(), ServiceFactory.getTicketService()));
         commands.put("admin", new AdminCommand());
         commands.put("admin/cancelTicket", new CancelTicketCommand(ServiceFactory.getTicketService()));
+        commands.put("admin/chooseSeat", new ChooseSeatCommand(ServiceFactory.getTripSeatService(),
+                ServiceFactory.getTicketService(), ServiceFactory.getWagonService()));
         commands.put("admin/chooseTripDate", new ChooseTripDateCommand(ServiceFactory.getTripService()));
-        commands.put("admin/chooseTrip", new ChooseTripCommand(ServiceFactory.getTicketService()));
+        commands.put("admin/chooseTrip", new ChooseTripCommand(ServiceFactory.getTicketService(),
+                ServiceFactory.getTrainService(), ServiceFactory.getTripService()));
+        commands.put("admin/chooseWagon", new ChooseWagonCommand(ServiceFactory.getTripSeatService(),
+                ServiceFactory.getWagonService()));
+        commands.put("admin/chooseWagonClass", new ChooseWagonClassCommand(ServiceFactory.getWagonService()));
         commands.put("cart", new CartCommand());
         commands.put("login", new LoginCommand(ServiceFactory.getUserService()));
         commands.put("logout", new LogoutCommand());

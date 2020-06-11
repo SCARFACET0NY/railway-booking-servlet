@@ -24,6 +24,7 @@ public class TicketDaoImpl implements TicketDao {
             "FROM ticket WHERE payment_id = ?";
     private final String FIND_TICKET_BY_TRIP_SEAT_ID = "SELECT ticket_id, trip_seat_id, price, payment_id " +
             "FROM ticket WHERE trip_seat_id = ?";
+    private final String UPDATE_TICKET_BY_ID = "UPDATE ticket SET trip_seat_id = ?, price = ? WHERE ticket_id = ?";
 
     public TicketDaoImpl(Connection connection) {
         this.connection = connection;
@@ -57,7 +58,17 @@ public class TicketDaoImpl implements TicketDao {
 
     @Override
     public Long save(Ticket ticket) {
-        return null;
+        try (PreparedStatement preparedStatement = this.connection.prepareStatement(UPDATE_TICKET_BY_ID)) {
+            preparedStatement.setLong(1, ticket.getTripSeatId());
+            preparedStatement.setBigDecimal(2, ticket.getPrice());
+            preparedStatement.setLong(3, ticket.getTicketId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ticket.getTicketId();
     }
 
     @Override

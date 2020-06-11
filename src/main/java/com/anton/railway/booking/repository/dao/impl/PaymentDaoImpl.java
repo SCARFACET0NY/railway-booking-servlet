@@ -23,7 +23,7 @@ public class PaymentDaoImpl implements PaymentDao {
     private final String FIND_PAYMENT_BY_ID = "SELECT payment_id, payment_date, total, user_id " +
             "FROM payment WHERE payment_id = ?";
     private final String LAST_ID = "SELECT LAST_INSERT_ID()";
-    private final String UPDATE_PAYMENT = "UPDATE payment SET total = ? WHERE payment_id = ?";
+    private final String UPDATE_PAYMENT_BY_ID = "UPDATE payment SET total = ? WHERE payment_id = ?";
 
     public PaymentDaoImpl(Connection connection) {
         this.connection = connection;
@@ -57,7 +57,7 @@ public class PaymentDaoImpl implements PaymentDao {
 
     @Override
     public Long save(Payment payment) {
-        try (PreparedStatement preparedStatement = this.connection.prepareStatement(UPDATE_PAYMENT)) {
+        try (PreparedStatement preparedStatement = this.connection.prepareStatement(UPDATE_PAYMENT_BY_ID)) {
             preparedStatement.setBigDecimal(1, payment.getTotal());
             preparedStatement.setLong(2, payment.getPaymentId());
 

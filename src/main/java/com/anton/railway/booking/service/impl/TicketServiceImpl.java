@@ -40,13 +40,13 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Ticket findById(Long aLong) {
-        return null;
+    public Ticket findById(Long id) {
+        return ticketDao.findById(id).orElse(null);
     }
 
     @Override
     public Long save(Ticket ticket) {
-        return null;
+        return ticketDao.save(ticket);
     }
 
     @Override
@@ -92,6 +92,28 @@ public class TicketServiceImpl implements TicketService {
                 .tripDto(tripDto)
                 .tripSeatDto(tripSeatDto)
                 .wagonNumber(wagonNumber).build();
+    }
+
+    @Override
+    public Ticket changeTicketPrice(Ticket ticket, Wagon oldWagon, Wagon newWagon) {
+        if (!oldWagon.getWagonTypeId().equals(newWagon.getWagonTypeId())) {
+            System.out.println("hello");
+            BigDecimal oldPriceCoefficient = wagonTypeDao
+                    .findById(oldWagon.getWagonTypeId()).orElse(null).getPriceCoefficient();
+            BigDecimal newPriceCoefficient = wagonTypeDao
+                    .findById(newWagon.getWagonTypeId()).orElse(null).getPriceCoefficient();
+            BigDecimal oldPrice = ticket.getPrice();
+
+            ticket.setPrice(ticket.getPrice().divide(oldPriceCoefficient).multiply(newPriceCoefficient));
+            BigDecimal newPrice = ticket.getPrice();
+
+            Payment payment = paymentDao.findById(ticket.getPaymentId()).orElse(null);
+            payment.setTotal(payment.getTotal().add(newPrice.subtract(oldPrice)));
+
+            paymentDao.save(payment);
+        }
+
+        return ticket;
     }
 
     @Override
