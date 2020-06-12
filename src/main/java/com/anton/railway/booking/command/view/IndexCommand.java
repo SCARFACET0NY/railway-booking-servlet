@@ -8,12 +8,12 @@ import java.io.IOException;
 
 public class IndexCommand implements Command {
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (req.getSession().getAttribute("mailSuccess") != null) {
             req.setAttribute("mailSuccess", req.getSession().getAttribute("mailSuccess"));
             req.getSession().setAttribute("mailSuccess", null);
         }
 
-        return new String[] {"index", "forward"};
+        return "index";
     }
 }

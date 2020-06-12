@@ -17,7 +17,7 @@ public class RegisterCommand implements Command {
     }
 
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (req.getMethod().equals("POST")) {
             long id = userService.registerUser(req.getParameter("firstName"),
                     req.getParameter("lastName"), req.getParameter("phone"), req.getParameter("email"),
@@ -25,10 +25,10 @@ public class RegisterCommand implements Command {
                     req.getParameter("password"), AccountStatus.CUSTOMER);
             if (id > 0) {
                 req.getSession().setAttribute("user", userService.findById(id));
-                return new String[] {"", "redirect"};
+                return "redirect:";
             }
         }
 
-        return new String[] {"register", "forward"};
+        return "register";
     }
 }

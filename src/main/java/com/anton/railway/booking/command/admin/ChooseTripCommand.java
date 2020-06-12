@@ -23,7 +23,7 @@ public class ChooseTripCommand implements Command {
     }
 
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Long tripId = Long.valueOf(req.getParameter("trip_id"));
         Trip trip = tripService.findById(tripId);
         Train train = trainService.findById(trip.getTrainId());
@@ -32,6 +32,6 @@ public class ChooseTripCommand implements Command {
         req.getSession().setAttribute("wagonClasses", trainService.getWagonClassesForTrain(train));
         req.getSession().setAttribute("paidTickets", ticketService.findPaidTicketsByTripId(tripId));
 
-        return new String[] {"admin", "redirect"};
+        return "redirect:admin";
     }
 }

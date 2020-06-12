@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class AdminCommand implements Command {
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        return new String[] {"admin", "forward"};
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        return "admin";
     }
 }

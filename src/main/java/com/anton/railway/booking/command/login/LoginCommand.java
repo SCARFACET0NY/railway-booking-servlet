@@ -15,7 +15,7 @@ public class LoginCommand implements Command {
     }
 
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (req.getMethod().equals("POST")) {
             String username = req.getParameter("username");
             String password = req.getParameter("password");
@@ -23,10 +23,10 @@ public class LoginCommand implements Command {
             if (userService.verifyUser(username, password)) {
                 req.getSession().setAttribute("user", userService.getUserByUsername(username));
 
-                return new String[] {"", "redirect"};
+                return "redirect:";
             }
             req.setAttribute("invalid", "invalid");
         }
-        return new String[] {"login", "forward"};
+        return "login";
     }
 }

@@ -19,7 +19,7 @@ public class SendEmailCommand implements Command {
     }
 
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Map<Long, TicketDto> cart = (Map<Long, TicketDto>) req.getSession().getAttribute("cart");
         BigDecimal total = (BigDecimal) req.getSession().getAttribute("total");
         User user = (User) req.getSession().getAttribute("user");
@@ -32,6 +32,6 @@ public class SendEmailCommand implements Command {
         req.getSession().setAttribute("cart", null);
         req.getSession().setAttribute("total", null);
 
-        return new String[] {"", "redirect"};
+        return "redirect:";
     }
 }

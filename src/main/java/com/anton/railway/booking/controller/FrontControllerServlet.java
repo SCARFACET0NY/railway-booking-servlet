@@ -56,14 +56,12 @@ public class FrontControllerServlet extends HttpServlet {
         if (command == null) {
             resp.sendError(404);
         } else {
-            String[] page = command.process(req, resp);
+            String page = command.process(req, resp);
 
-            if (page != null) {
-                if (page[1].equals("forward")) {
-                    req.getRequestDispatcher(String.format(JSP_PATH, page[0])).forward(req, resp);
-                } else if (page[1].equals("redirect")) {
-                    resp.sendRedirect("/" + page[0]);
-                }
+            if (page.startsWith("redirect:")) {
+                resp.sendRedirect("/" + page.substring(page.indexOf(":") + 1));
+            } else {
+                req.getRequestDispatcher(String.format(JSP_PATH, page)).forward(req, resp);
             }
         }
     }

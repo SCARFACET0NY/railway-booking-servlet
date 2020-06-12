@@ -15,5 +15,5 @@ public interface Command {
      * @return array of strings with page of path and forward or redirect action
      * @throws IOException
      */
-    String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException;
+    String process(HttpServletRequest req, HttpServletResponse resp) throws IOException;
 }

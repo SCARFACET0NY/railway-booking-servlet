@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class TripCommand implements Command {
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        return new String[] {"trip", "forward"};
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        return "trip";
     }
 }

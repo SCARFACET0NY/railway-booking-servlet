@@ -10,7 +10,7 @@ import java.util.List;
 
 public class SetSeatCommand implements Command {
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Long id= Long.valueOf(req.getParameter("seat_id"));
         List<TripSeatDto> seats = (List<TripSeatDto>) req.getSession().getAttribute("seats");
 
@@ -18,6 +18,6 @@ public class SetSeatCommand implements Command {
             if (seat.getTripSeat().getTripSeatId().equals(id)) req.getSession().setAttribute("selectedSeat", seat);
         });
 
-        return new String[] {"trip", "redirect"};
+        return "redirect:trip";
     }
 }

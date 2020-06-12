@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class CartCommand implements Command {
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        return new String[] {"cart", "forward"};
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        return "cart";
     }
 }

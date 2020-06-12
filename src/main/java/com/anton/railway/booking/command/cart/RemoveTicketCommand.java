@@ -17,7 +17,7 @@ public class RemoveTicketCommand implements Command {
     }
 
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Long seatId = Long.valueOf(req.getParameter("seat_id"));
         Map<Long, TicketDto> cart = (Map<Long, TicketDto>) req.getSession().getAttribute("cart");
 
@@ -26,6 +26,6 @@ public class RemoveTicketCommand implements Command {
         req.getSession().setAttribute("cart", cart);
         req.getSession().setAttribute("total", paymentService.getCartTotal(cart));
 
-        return new String[] {"cart", "redirect"};
+        return "redirect:cart";
     }
 }

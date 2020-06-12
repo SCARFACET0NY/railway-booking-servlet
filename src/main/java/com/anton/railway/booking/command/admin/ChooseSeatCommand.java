@@ -27,7 +27,7 @@ public class ChooseSeatCommand implements Command {
     }
 
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Long oldSeatId = Long.valueOf(req.getParameter("old_seat_id"));
         Long newSeatId = Long.valueOf(req.getParameter("seat_id"));
         Long oldWagonId = Long.valueOf(req.getParameter("old_wagon_id"));
@@ -60,6 +60,6 @@ public class ChooseSeatCommand implements Command {
         req.getSession().setAttribute("wagons", null);
         req.getSession().setAttribute("seats", null);
 
-        return new String[] {"admin", "redirect"};
+        return "redirect:admin";
     }
 }

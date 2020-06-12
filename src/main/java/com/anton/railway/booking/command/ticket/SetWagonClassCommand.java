@@ -17,7 +17,7 @@ public class SetWagonClassCommand implements Command {
     }
 
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         TripDto trip = (TripDto) req.getSession().getAttribute("trip");
         WagonClass wagonClass = WagonClass.valueOf(req.getParameter("wagon_class"));
 
@@ -25,6 +25,6 @@ public class SetWagonClassCommand implements Command {
                 wagonService.findWagonsByClassAndTrainId(wagonClass, trip.getTrain().getTrainId()));
         req.getSession().setAttribute("selectedWagonClass", wagonClass);
 
-        return new String[] {"trip", "redirect"};
+        return "redirect:trip";
     }
 }

@@ -15,9 +15,9 @@ public class ScheduleCommand implements Command {
     }
 
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setAttribute("trips", tripService.findAllScheduledTrips());
 
-        return new String[] {"schedule", "forward"};
+        return "schedule";
     }
 }

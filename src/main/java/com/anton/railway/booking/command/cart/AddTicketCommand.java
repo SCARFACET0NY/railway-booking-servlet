@@ -25,7 +25,7 @@ public class AddTicketCommand implements Command {
     }
 
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Map<Long, TicketDto> cart = (Map<Long, TicketDto>) req.getSession().getAttribute("cart");
         if (cart == null) cart = new HashMap<>();
 
@@ -47,6 +47,6 @@ public class AddTicketCommand implements Command {
         req.getSession().removeAttribute("selectedSeat");
         req.getSession().removeAttribute("ticket");
 
-        return new String[] {"trip", "redirect"};
+        return "redirect:trip";
     }
 }

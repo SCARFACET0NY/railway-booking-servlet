@@ -19,13 +19,13 @@ public class SetWagonCommand implements Command {
     }
 
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Long wagon_id = Long.valueOf(req.getParameter("wagon_id"));
         TripDto tripDto = (TripDto) req.getSession().getAttribute("trip");
         req.getSession().setAttribute("selectedWagon", wagonService.findById(wagon_id));
         req.getSession().setAttribute("seats",
                 tripSeatService.findWagonsFreeSeatsForTrip(tripDto.getTrip().getTripId(), wagon_id));
 
-        return new String[] {"trip", "redirect"};
+        return "redirect:trip";
     }
 }

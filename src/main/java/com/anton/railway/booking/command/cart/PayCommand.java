@@ -20,7 +20,7 @@ public class PayCommand implements Command {
     }
 
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         Map<Long, TicketDto> cart = (Map<Long, TicketDto>) session.getAttribute("cart");
 
@@ -30,9 +30,9 @@ public class PayCommand implements Command {
 
             paymentService.savePaymentWithTickets(total, userId, cart);
 
-            return new String[] {"sendEmail", "redirect"};
+            return "redirect:sendEmail";
         }
 
-        return new String[] {"", "redirect"};
+        return "redirect:";
     }
 }

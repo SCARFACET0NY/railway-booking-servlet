@@ -19,7 +19,7 @@ public class ChooseWagonCommand implements Command {
     }
 
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Long wagon_id = Long.valueOf(req.getParameter("wagon_id"));
         Trip trip = (Trip) req.getSession().getAttribute("selectedTrip");
 
@@ -27,6 +27,6 @@ public class ChooseWagonCommand implements Command {
         req.getSession().setAttribute("seats",
                 tripSeatService.findWagonsFreeSeatsForTrip(trip.getTripId(), wagon_id));
 
-        return new String[] {"admin", "redirect"};
+        return "redirect:admin";
     }
 }

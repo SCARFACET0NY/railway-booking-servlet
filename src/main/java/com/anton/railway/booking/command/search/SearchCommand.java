@@ -16,7 +16,7 @@ public class SearchCommand implements Command {
     }
 
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String departureCity = req.getParameter("departure");
         String arrivalCity = req.getParameter("arrival");
         String date = req.getParameter("date");
@@ -29,6 +29,6 @@ public class SearchCommand implements Command {
             }
         }
 
-        return new String[] {"search", "forward"};
+        return "search";
     }
 }

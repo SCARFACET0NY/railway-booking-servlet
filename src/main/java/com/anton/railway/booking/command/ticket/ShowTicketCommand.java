@@ -18,13 +18,13 @@ public class ShowTicketCommand implements Command {
     }
 
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         TripDto tripDto = (TripDto) req.getSession().getAttribute("trip");
         Wagon wagon = (Wagon) req.getSession().getAttribute("selectedWagon");
         TripSeatDto tripSeatDto = (TripSeatDto) req.getSession().getAttribute("selectedSeat");
 
         req.getSession().setAttribute("ticket", ticketService.createTicket(tripDto, wagon, tripSeatDto.getTripSeat()));
 
-        return new String[] {"trip", "redirect"};
+        return "redirect:trip";
     }
 }

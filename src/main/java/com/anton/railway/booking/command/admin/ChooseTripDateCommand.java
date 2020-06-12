@@ -16,11 +16,11 @@ public class ChooseTripDateCommand implements Command {
     }
 
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String date = req.getParameter("date");
         req.getSession().setAttribute("date", date);
         req.getSession().setAttribute("trips", tripService.findScheduledTripsForDate(LocalDate.parse(date)));
 
-        return new String[] {"admin", "redirect"};
+        return "redirect:admin";
     }
 }

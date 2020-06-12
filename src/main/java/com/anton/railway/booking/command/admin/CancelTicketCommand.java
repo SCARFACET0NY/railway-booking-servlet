@@ -15,13 +15,13 @@ public class CancelTicketCommand implements Command {
     }
 
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Long ticketId = Long.valueOf(req.getParameter("ticket_id"));
         Long tripId = (Long) req.getSession().getAttribute("selectedTripId");
 
         ticketService.deleteById(ticketId);
         req.getSession().setAttribute("paidTickets", ticketService.findPaidTicketsByTripId(tripId));
 
-        return new String[] {"admin", "redirect"};
+        return "redirect:admin";
     }
 }

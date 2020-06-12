@@ -19,7 +19,7 @@ public class SetTripCommand implements Command {
     }
 
     @Override
-    public String[] process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.getSession().removeAttribute("selectedWagonClass");
         req.getSession().removeAttribute("wagons");
         req.getSession().removeAttribute("selectedWagon");
@@ -31,6 +31,6 @@ public class SetTripCommand implements Command {
         req.getSession().setAttribute("trip", trip);
         req.getSession().setAttribute("wagonClasses", trainService.getWagonClassesForTrain(trip.getTrain()));
 
-        return new String[] {"trip", "redirect"};
+        return "redirect:trip";
     }
 }
