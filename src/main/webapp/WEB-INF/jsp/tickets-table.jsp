@@ -98,7 +98,7 @@
                                     </c:if>
                                 </div>
                                 <div class="col-md-3">
-                                    <form method="get" action="/cancelSeatChange">
+                                    <form method="get" action="/admin/cancelSeatChange">
                                         <button class="btn btn-lg btn-info btn-block cancel" type="submit">Cancel</button>
                                     </form>
                                 </div>

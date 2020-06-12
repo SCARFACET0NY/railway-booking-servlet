@@ -28,6 +28,7 @@ public class CommandFactory {
         commands.put("addTicket", new AddTicketCommand(
                 ServiceFactory.getPaymentService(), ServiceFactory.getTicketService()));
         commands.put("admin", new AdminCommand());
+        commands.put("admin/cancelSeatChange", new CancelSeatChangeCommand());
         commands.put("admin/cancelTicket", new CancelTicketCommand(ServiceFactory.getTicketService()));
         commands.put("admin/chooseSeat", new ChooseSeatCommand(ServiceFactory.getTripSeatService(),
                 ServiceFactory.getTicketService(), ServiceFactory.getWagonService()));
