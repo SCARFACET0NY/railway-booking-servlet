@@ -29,8 +29,8 @@ public class ChooseTripCommand implements Command {
         Train train = trainService.findById(trip.getTrainId());
 
         req.getSession().setAttribute("selectedTrip", trip);
+        req.getSession().setAttribute("page", 0);
         req.getSession().setAttribute("wagonClasses", trainService.getWagonClassesForTrain(train));
-        req.getSession().setAttribute("paidTickets", ticketService.findPaidTicketsByTripId(tripId));
 
         return "redirect:admin";
     }

@@ -17,5 +17,7 @@ public interface TicketService extends CrudService<Ticket, Long> {
 
     Ticket changeTicketPrice(Ticket ticket, Wagon oldWagon, Wagon newWagon);
 
-    List<PaidTicket> findPaidTicketsByTripId(Long id);
+    List<PaidTicket> findPaidTicketsPageByTripId(Long id, Integer pageNumber);
+
+    Integer getNumberOfPaidTicketsPagesByTripId(Long id);
 }

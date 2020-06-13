@@ -18,9 +18,10 @@ public class CancelTicketCommand implements Command {
     public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Long ticketId = Long.valueOf(req.getParameter("ticket_id"));
         Long tripId = (Long) req.getSession().getAttribute("selectedTripId");
+        Integer pageNumber = Integer.valueOf(req.getParameter("page"));
 
         ticketService.deleteById(ticketId);
-        req.getSession().setAttribute("paidTickets", ticketService.findPaidTicketsByTripId(tripId));
+        req.getSession().setAttribute("paidTickets", ticketService.findPaidTicketsPageByTripId(tripId, pageNumber));
 
         return "redirect:admin";
     }

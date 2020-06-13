@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TicketServiceImpl implements TicketService {
+    public static final int ROWS_PER_PAGE = 10;
     private final PaymentDao paymentDao;
     private final SeatDao seatDao;
     private final TripSeatDao tripSeatDao;
@@ -117,9 +118,10 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<PaidTicket> findPaidTicketsByTripId(Long id) {
+    public List<PaidTicket> findPaidTicketsPageByTripId(Long id, Integer pageNumber) {
         List<PaidTicket> paidTickets = new ArrayList<>();
-        tripSeatDao.findTripSeatsForTripByStatus(id, SeatStatus.OCCUPIED).forEach(tripSeat -> {
+        tripSeatDao.findTripSeatsForTripByStatusPaged(
+                id, SeatStatus.OCCUPIED, ROWS_PER_PAGE * pageNumber, ROWS_PER_PAGE).forEach(tripSeat -> {
             Seat seat = seatDao.findById(tripSeat.getSeatId()).orElse(null);
             Wagon wagon = wagonDao.findById(seat.getWagonId()).orElse(null);
             WagonClass wagonClass = wagonTypeDao.findById(wagon.getWagonTypeId()).orElse(null).getWagonClass();
@@ -138,5 +140,13 @@ public class TicketServiceImpl implements TicketService {
         });
 
         return paidTickets;
+    }
+
+    @Override
+    public Integer getNumberOfPaidTicketsPagesByTripId(Long id) {
+        int numOfSeats = tripSeatDao.getNumberOfTripSeatsForTripByStatus(id, SeatStatus.OCCUPIED);
+        return numOfSeats % ROWS_PER_PAGE == 0
+                ? numOfSeats / ROWS_PER_PAGE - 1
+                : numOfSeats / ROWS_PER_PAGE ;
     }
 }

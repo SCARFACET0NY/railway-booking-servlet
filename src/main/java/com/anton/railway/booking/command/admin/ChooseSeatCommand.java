@@ -32,6 +32,7 @@ public class ChooseSeatCommand implements Command {
         Long newSeatId = Long.valueOf(req.getParameter("seat_id"));
         Long oldWagonId = Long.valueOf(req.getParameter("old_wagon_id"));
         Long ticketId = Long.valueOf(req.getParameter("ticket_id"));
+        Integer pageNumber = (Integer) req.getSession().getAttribute("page");
 
         List<TripSeatDto> seats = (List<TripSeatDto>) req.getSession().getAttribute("seats");
         Wagon oldWagon = wagonService.findById(oldWagonId);
@@ -50,7 +51,7 @@ public class ChooseSeatCommand implements Command {
                 ticketService.save(ticket);
 
                 req.getSession().setAttribute("paidTickets",
-                        ticketService.findPaidTicketsByTripId(seat.getTripSeat().getTripId()));
+                        ticketService.findPaidTicketsPageByTripId(seat.getTripSeat().getTripId(), pageNumber));
             }
         });
 

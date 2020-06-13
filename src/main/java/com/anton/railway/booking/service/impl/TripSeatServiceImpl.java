@@ -56,11 +56,6 @@ public class TripSeatServiceImpl implements TripSeatService {
     }
 
     @Override
-    public List<TripSeat> findOccupiedSeatsByTripId(Long id) {
-        return tripSeatDao.findTripSeatsForTripByStatus(id, SeatStatus.OCCUPIED);
-    }
-
-    @Override
     public TripSeatDto convertTripSeatToTripSeatDto(TripSeat tripSeat) {
         Seat seat = seatDao.findById(tripSeat.getSeatId()).orElse(null);
 

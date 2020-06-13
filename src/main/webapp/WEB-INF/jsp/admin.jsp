@@ -35,7 +35,7 @@
                         <select id="trip_id" name="trip_id" class="form-control">
                             <c:forEach items="${sessionScope.trips}" var="trip">
                                 <option value="${trip.trip.tripId}"
-                                    ${trip.trip.tripId == sessionScope.selectedTripId ? 'selected' : ''}>
+                                    ${trip.trip.tripId == sessionScope.selectedTrip.tripId ? 'selected' : ''}>
                                         Train №${trip.train.trainNumber} ${trip.departureCity} - ${trip.arrivalCity}:
                                         ${trip.trip.departureTime}
                                 </option>

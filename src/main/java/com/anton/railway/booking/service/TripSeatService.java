@@ -8,7 +8,5 @@ import java.util.List;
 public interface TripSeatService extends CrudService<TripSeat, Long> {
     List<TripSeatDto> findWagonsFreeSeatsForTrip(Long tripId, Long wagonId);
 
-    List<TripSeat> findOccupiedSeatsByTripId(Long id);
-
     TripSeatDto convertTripSeatToTripSeatDto(TripSeat tripSeat);
 }

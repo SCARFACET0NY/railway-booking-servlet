@@ -21,11 +21,13 @@ public class TripSeatDaoImpl implements TripSeatDao {
     private final String FIND_TRIP_SEAT_BY_ID = "SELECT trip_seat_id, trip_id, seat_id, status " +
             "FROM trip_seat WHERE trip_seat_id = ?";
     private final String FIND_TRIP_SEATS_BY_TRIP_AND_STATUS = "SELECT trip_seat_id, trip_id, seat_id, status " +
-            "FROM trip_seat WHERE trip_id = ? AND status = ?";
+            "FROM trip_seat WHERE trip_id = ? AND status = ? LIMIT ?, ?";
     private final String FIND_TRIP_SEATS_BY_TRIP_AND_WAGON_IDS_AND_STATUS = "SELECT trip_seat_id, trip_id, " +
             "trip_seat.seat_id, status FROM trip_seat " +
             "LEFT JOIN seat ON trip_seat.seat_id = seat.seat_id " +
             "WHERE trip_id = ? AND wagon_id = ? AND status = ?";
+    private final String GET_NUMBER_OF_TRIP_SEATS_FOR_TRIP_BY_STATUS = "SELECT COUNT(trip_seat_id) " +
+            "FROM trip_seat WHERE trip_id = ? AND status = ?";
     private final String UPDATE_TRIP_SEAT_BY_ID = "UPDATE trip_seat SET status = ? WHERE trip_seat_id = ?";
 
     public TripSeatDaoImpl(Connection connection) {
@@ -83,12 +85,15 @@ public class TripSeatDaoImpl implements TripSeatDao {
     }
 
     @Override
-    public List<TripSeat> findTripSeatsForTripByStatus(Long tripId, SeatStatus status) {
+    public List<TripSeat> findTripSeatsForTripByStatusPaged(Long tripId, SeatStatus status, Integer offset, Integer numPerPage) {
         List<TripSeat> seats = new ArrayList<>();
         TripSeat seat = null;
         try (PreparedStatement preparedStatement = this.connection.prepareStatement(FIND_TRIP_SEATS_BY_TRIP_AND_STATUS)) {
             preparedStatement.setLong(1, tripId);
             preparedStatement.setString(2, status.toString());
+            preparedStatement.setInt(3, offset);
+            preparedStatement.setInt(4, numPerPage);
+
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
@@ -131,5 +136,22 @@ public class TripSeatDaoImpl implements TripSeatDao {
         }
 
         return seats;
+    }
+
+    @Override
+    public Integer getNumberOfTripSeatsForTripByStatus(Long tripId, SeatStatus status) {
+        int numberOfSeats = 0;
+        try (PreparedStatement statement = this.connection.prepareStatement(GET_NUMBER_OF_TRIP_SEATS_FOR_TRIP_BY_STATUS)) {
+            statement.setLong(1, tripId);
+            statement.setString(2, status.toString());
+
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                numberOfSeats = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return numberOfSeats;
     }
 }
