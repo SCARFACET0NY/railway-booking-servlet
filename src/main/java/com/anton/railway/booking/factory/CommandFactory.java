@@ -24,7 +24,7 @@ public class CommandFactory {
 
     static {
         commands = new HashMap<>();
-        commands.put("", new IndexCommand());
+        commands.put("", new SearchPageCommand());
         commands.put("addTicket", new AddTicketCommand(
                 ServiceFactory.getPaymentService(), ServiceFactory.getTicketService()));
         commands.put("admin", new AdminCommand(ServiceFactory.getTicketService()));
@@ -46,7 +46,6 @@ public class CommandFactory {
         commands.put("removeTicket", new RemoveTicketCommand(ServiceFactory.getPaymentService()));
         commands.put("schedule", new ScheduleCommand(ServiceFactory.getTripService()));
         commands.put("search", new SearchCommand(ServiceFactory.getTripService()));
-        commands.put("searchPage", new SearchPageCommand());
         commands.put("sendEmail", new SendEmailCommand(ServiceFactory.getEmailService()));
         commands.put("setSeat", new SetSeatCommand());
         commands.put("setTrip", new SetTripCommand(ServiceFactory.getTripService(), ServiceFactory.getTrainService()));

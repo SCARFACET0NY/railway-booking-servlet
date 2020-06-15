@@ -9,6 +9,11 @@ import java.io.IOException;
 public class SearchPageCommand implements Command {
     @Override
     public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        return "search";
+        if (req.getSession().getAttribute("mailSuccess") != null) {
+            req.setAttribute("mailSuccess", req.getSession().getAttribute("mailSuccess"));
+            req.getSession().setAttribute("mailSuccess", null);
+        }
+
+        return "index";
     }
 }

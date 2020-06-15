@@ -29,6 +29,6 @@ public class SearchCommand implements Command {
             }
         }
 
-        return "search";
+        return "index";
     }
 }

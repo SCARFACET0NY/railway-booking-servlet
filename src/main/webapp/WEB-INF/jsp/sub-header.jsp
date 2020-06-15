@@ -14,8 +14,8 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link ${requestScope['javax.servlet.forward.request_uri'].equals("/searchPage")
-                                 ? "text-light" : ""}" href="/searchPage">
+            <a class="nav-link ${requestScope['javax.servlet.forward.request_uri'].equals("/")
+                                 ? "text-light" : ""}" href="/">
                 <img class="icon" src="img/search_icon.png"/>
                 <span><fmt:message bundle="${message}" key="booking.search"/></span>
             </a>
