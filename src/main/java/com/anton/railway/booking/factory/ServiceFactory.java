@@ -26,8 +26,8 @@ public class ServiceFactory {
                 DaoFactory.getWagonDao(), DaoFactory.getWagonTypeDao());
         trainService = new TrainServiceImpl(
                 DaoFactory.getTrainDao(), DaoFactory.getWagonDao(), DaoFactory.getWagonTypeDao());
-        tripService = new TripServiceImpl(DaoFactory.getRouteDao(), DaoFactory.getStationDao(), DaoFactory.getTripDao(),
-                DaoFactory.getTrainDao());
+        tripService = new TripServiceImpl(DaoFactory.getRouteDao(), DaoFactory.getStationDao(), DaoFactory.getTrainDao(),
+                DaoFactory.getTripDao());
         tripSeatService = new TripSeatServiceImpl(DaoFactory.getSeatDao(), DaoFactory.getTripSeatDao());
         userService = new UserServiceImpl(new UpdatableBCrypt(11), DaoFactory.getUserDao());
         wagonService = new WagonServiceImpl(DaoFactory.getWagonDao(), DaoFactory.getWagonTypeDao());

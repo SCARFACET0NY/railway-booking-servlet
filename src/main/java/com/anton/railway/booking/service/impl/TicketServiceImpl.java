@@ -37,7 +37,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<Ticket> findAll() {
-        return null;
+        return ticketDao.findAll();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public void delete(Ticket ticket) {
-
+        ticketDao.delete(ticket);
     }
 
     @Override
@@ -98,7 +98,6 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Ticket changeTicketPrice(Ticket ticket, Wagon oldWagon, Wagon newWagon) {
         if (!oldWagon.getWagonTypeId().equals(newWagon.getWagonTypeId())) {
-            System.out.println("hello");
             BigDecimal oldPriceCoefficient = wagonTypeDao
                     .findById(oldWagon.getWagonTypeId()).orElse(null).getPriceCoefficient();
             BigDecimal newPriceCoefficient = wagonTypeDao

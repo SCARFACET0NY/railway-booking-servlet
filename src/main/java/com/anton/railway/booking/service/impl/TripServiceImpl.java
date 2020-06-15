@@ -15,14 +15,14 @@ import java.util.List;
 public class TripServiceImpl implements TripService {
     private final RouteDao routeDao;
     private final StationDao stationDao;
-    private final TripDao tripDao;
     private final TrainDao trainDao;
+    private final TripDao tripDao;
 
-    public TripServiceImpl(RouteDao routeDao, StationDao stationDao, TripDao tripDao, TrainDao trainDao) {
+    public TripServiceImpl(RouteDao routeDao, StationDao stationDao, TrainDao trainDao, TripDao tripDao) {
         this.routeDao = routeDao;
         this.stationDao = stationDao;
-        this.tripDao = tripDao;
         this.trainDao = trainDao;
+        this.tripDao = tripDao;
     }
 
     @Override
