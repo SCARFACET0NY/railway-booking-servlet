@@ -15,39 +15,7 @@
 <body>
     <jsp:include page="header.jsp"/>
     <jsp:include page="sub-header.jsp"/>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <form method="get" action="/admin/chooseTripDate">
-                    <div class="form-group">
-                        <label for="date">Choose Trip Date:</label>
-                        <input id="date" type="date" class="form-control" name="date" value="${sessionScope.date}">
-                    </div>
-                    <button class="btn btn-lg btn-info btn-block" type="submit">Choose Date</button>
-                </form>
-            </div>
-
-            <div class="col-md-6">
-                <form method="get" action="/admin/chooseTrip">
-                    <div class="form-group">
-                        <label for="trip_id">Choose Trip:</label>
-                        <select id="trip_id" name="trip_id" class="form-control">
-                            <c:forEach items="${sessionScope.trips}" var="trip">
-                                <option value="${trip.trip.tripId}"
-                                    ${trip.trip.tripId == sessionScope.selectedTrip.tripId ? 'selected' : ''}>
-                                        Train №${trip.train.trainNumber} ${trip.departureCity} - ${trip.arrivalCity}:
-                                        ${trip.trip.departureTime}
-                                </option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <button class="btn btn-lg btn-info btn-block" type="submit">Choose Trip</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
+    <jsp:include page="choose-trip-menu.jsp"/>
     <jsp:include page="tickets-table.jsp"/>
     <jsp:include page="footer.jsp"/>
 

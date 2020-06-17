@@ -55,11 +55,7 @@ public class ChooseSeatCommand implements Command {
             }
         });
 
-        req.getSession().setAttribute("index", null);
-        req.getSession().setAttribute("selectedWagonClass", null);
-        req.getSession().setAttribute("selectedWagon", null);
-        req.getSession().setAttribute("wagons", null);
-        req.getSession().setAttribute("seats", null);
+        req.getSession().removeAttribute("index");
 
         return "redirect:admin";
     }

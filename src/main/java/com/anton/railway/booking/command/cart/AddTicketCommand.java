@@ -39,13 +39,7 @@ public class AddTicketCommand implements Command {
 
         req.getSession().setAttribute("cart", cart);
         req.getSession().setAttribute("total", paymentService.getCartTotal(cart));
-
-        req.getSession().removeAttribute("selectedWagonClass");
-        req.getSession().removeAttribute("wagons");
-        req.getSession().removeAttribute("selectedWagon");
-        req.getSession().removeAttribute("seats");
-        req.getSession().removeAttribute("selectedSeat");
-        req.getSession().removeAttribute("ticket");
+        req.getSession().setAttribute("trip", tripDto);
 
         return "redirect:trip";
     }

@@ -29,8 +29,6 @@ public class SendEmailCommand implements Command {
 
         cart.clear();
         req.getSession().setAttribute("mailSuccess", "success");
-        req.getSession().setAttribute("cart", null);
-        req.getSession().setAttribute("total", null);
 
         return "redirect:";
     }

@@ -20,6 +20,7 @@ public class ChooseTripDateCommand implements Command {
         String date = req.getParameter("date");
         req.getSession().setAttribute("date", date);
         req.getSession().setAttribute("trips", tripService.findScheduledTripsForDate(LocalDate.parse(date)));
+        req.getSession().removeAttribute("selectedTrip");
 
         return "redirect:admin";
     }

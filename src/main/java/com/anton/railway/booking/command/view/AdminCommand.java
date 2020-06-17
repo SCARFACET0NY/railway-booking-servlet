@@ -29,6 +29,8 @@ public class AdminCommand implements Command {
                     .findPaidTicketsPageByTripId(trip.getTripId(), pageNumber));
             session.setAttribute("numOfPages", ticketService.getNumberOfPaidTicketsPagesByTripId(trip.getTripId()));
             session.setAttribute("page", pageNumber);
+        } else {
+            session.removeAttribute("paidTickets");
         }
 
         return "admin";

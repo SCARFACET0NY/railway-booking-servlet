@@ -29,6 +29,8 @@ public class PayCommand implements Command {
             long userId = ((User)session.getAttribute("user")).getUserId();
 
             paymentService.savePaymentWithTickets(total, userId, cart);
+            req.getSession().setAttribute("cart", null);
+            req.getSession().setAttribute("total", null);
 
             return "redirect:sendEmail";
         }

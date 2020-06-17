@@ -9,11 +9,7 @@ import java.io.IOException;
 public class CancelSeatChangeCommand implements Command {
     @Override
     public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        req.getSession().setAttribute("index", null);
-        req.getSession().setAttribute("selectedWagonClass", null);
-        req.getSession().setAttribute("selectedWagon", null);
-        req.getSession().setAttribute("wagons", null);
-        req.getSession().setAttribute("seats", null);
+        req.getSession().removeAttribute("index");
 
         return "redirect:admin";
     }

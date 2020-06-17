@@ -20,13 +20,6 @@ public class SetTripCommand implements Command {
 
     @Override
     public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        req.getSession().removeAttribute("selectedWagonClass");
-        req.getSession().removeAttribute("wagons");
-        req.getSession().removeAttribute("selectedWagon");
-        req.getSession().removeAttribute("seats");
-        req.getSession().removeAttribute("selectedSeat");
-        req.getSession().removeAttribute("ticket");
-
         TripDto trip = tripService.getTripDtoByTripId(Long.valueOf(req.getParameter("trip_id")));
         req.getSession().setAttribute("trip", trip);
         req.getSession().setAttribute("wagonClasses", trainService.getWagonClassesForTrain(trip.getTrain()));
