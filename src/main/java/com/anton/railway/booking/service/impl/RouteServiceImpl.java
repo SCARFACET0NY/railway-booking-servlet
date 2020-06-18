@@ -1,5 +1,6 @@
 package com.anton.railway.booking.service.impl;
 
+import com.anton.railway.booking.exception.RouteException;
 import com.anton.railway.booking.repository.dao.RouteDao;
 import com.anton.railway.booking.repository.entity.Route;
 import com.anton.railway.booking.service.RouteService;
@@ -20,7 +21,7 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public Route findById(Long id) {
-        return routeDao.findById(id).orElse(null);
+        return routeDao.findById(id).orElseThrow(() -> new RouteException("Route not found"));
     }
 
     @Override

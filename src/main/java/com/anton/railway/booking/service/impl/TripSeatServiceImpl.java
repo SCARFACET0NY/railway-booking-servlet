@@ -1,5 +1,8 @@
 package com.anton.railway.booking.service.impl;
 
+import com.anton.railway.booking.exception.SeatException;
+import com.anton.railway.booking.exception.TripSeatException;
+import com.anton.railway.booking.exception.WagonTypeException;
 import com.anton.railway.booking.repository.dao.SeatDao;
 import com.anton.railway.booking.repository.dao.TripSeatDao;
 import com.anton.railway.booking.repository.dto.TripSeatDto;
@@ -27,7 +30,7 @@ public class TripSeatServiceImpl implements TripSeatService {
 
     @Override
     public TripSeat findById(Long id) {
-        return tripSeatDao.findById(id).orElse(null);
+        return tripSeatDao.findById(id).orElseThrow(() -> new TripSeatException("TripSeat not found"));
     }
 
     @Override
@@ -57,7 +60,8 @@ public class TripSeatServiceImpl implements TripSeatService {
 
     @Override
     public TripSeatDto convertTripSeatToTripSeatDto(TripSeat tripSeat) {
-        Seat seat = seatDao.findById(tripSeat.getSeatId()).orElse(null);
+        Seat seat = seatDao.findById(tripSeat.getSeatId())
+                .orElseThrow(() -> new SeatException("Seat not found"));
 
         return TripSeatDto.builder()
                 .tripSeat(tripSeat)

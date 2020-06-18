@@ -1,5 +1,6 @@
 package com.anton.railway.booking.repository.dao.impl;
 
+import com.anton.railway.booking.exception.DaoException;
 import com.anton.railway.booking.repository.dao.TripSeatDao;
 import com.anton.railway.booking.repository.entity.TripSeat;
 import com.anton.railway.booking.repository.entity.enums.SeatStatus;
@@ -49,7 +50,8 @@ public class TripSeatDaoImpl implements TripSeatDao {
                 tripSeat.setSeatStatus(SeatStatus.valueOf(rs.getString("status")));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of tripSeat failed. ", e);
+            throw new DaoException("Can't find tripSeat by id: " + e.getMessage(), e);
         }
 
         return Optional.ofNullable(tripSeat);
@@ -68,7 +70,8 @@ public class TripSeatDaoImpl implements TripSeatDao {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Saving of tripSeat failed. ", e);
+            throw new DaoException("Can't save tripSeat: " + e.getMessage(), e);
         }
 
         return tripSeat.getTripSeatId();
@@ -106,7 +109,8 @@ public class TripSeatDaoImpl implements TripSeatDao {
                 seats.add(seat);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of tripSeats for trip by status failed. ", e);
+            throw new DaoException("Can't find tripSeats for trip by seat status page: " + e.getMessage(), e);
         }
 
         return seats;
@@ -132,7 +136,8 @@ public class TripSeatDaoImpl implements TripSeatDao {
                 seats.add(seat);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of tripSeats for wagon by status failed. ", e);
+            throw new DaoException("Can't find tripSeats for wagon by seat status: " + e.getMessage(), e);
         }
 
         return seats;
@@ -150,7 +155,8 @@ public class TripSeatDaoImpl implements TripSeatDao {
                 numberOfSeats = rs.getInt(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of tripSeats number for trip by status failed. ", e);
+            throw new DaoException("Can't find tripSeats number for trip by seat status: " + e.getMessage(), e);
         }
         return numberOfSeats;
     }

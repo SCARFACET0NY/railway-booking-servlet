@@ -1,5 +1,6 @@
 package com.anton.railway.booking.repository.dao.impl;
 
+import com.anton.railway.booking.exception.DaoException;
 import com.anton.railway.booking.repository.dao.StationDao;
 import com.anton.railway.booking.repository.entity.Station;
 import org.apache.logging.log4j.LogManager;
@@ -39,7 +40,8 @@ public class StationDaoImpl implements StationDao {
                 station.setCode(rs.getString("code"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of station failed. ", e);
+            throw new DaoException("Can't find station by id: " + e.getMessage(), e);
         }
 
         return Optional.ofNullable(station);

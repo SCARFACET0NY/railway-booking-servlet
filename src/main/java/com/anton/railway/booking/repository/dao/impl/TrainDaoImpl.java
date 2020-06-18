@@ -1,5 +1,6 @@
 package com.anton.railway.booking.repository.dao.impl;
 
+import com.anton.railway.booking.exception.DaoException;
 import com.anton.railway.booking.repository.dao.TrainDao;
 import com.anton.railway.booking.repository.entity.Train;
 import org.apache.logging.log4j.LogManager;
@@ -36,7 +37,8 @@ public class TrainDaoImpl implements TrainDao {
                 train.setTrainNumber(rs.getString("number"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of train failed. ", e);
+            throw new DaoException("Can't find train by id: " + e.getMessage(), e);
         }
 
         return Optional.ofNullable(train);

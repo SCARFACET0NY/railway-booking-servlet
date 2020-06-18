@@ -1,5 +1,7 @@
 package com.anton.railway.booking.service.impl;
 
+import com.anton.railway.booking.exception.TrainException;
+import com.anton.railway.booking.exception.WagonTypeException;
 import com.anton.railway.booking.repository.dao.TrainDao;
 import com.anton.railway.booking.repository.dao.WagonDao;
 import com.anton.railway.booking.repository.dao.WagonTypeDao;
@@ -30,7 +32,7 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     public Train findById(Long id) {
-        return trainDao.findById(id).orElse(null);
+        return trainDao.findById(id).orElseThrow(() -> new TrainException("Train not found"));
     }
 
     @Override
@@ -53,7 +55,8 @@ public class TrainServiceImpl implements TrainService {
         List<Wagon> wagons = wagonDao.findWagonsByTrainId(train.getTrainId());
         Set<WagonClass> wagonClasses = new HashSet<>();
         wagons.forEach(wagon -> {
-            wagonClasses.add(wagonTypeDao.findById(wagon.getWagonTypeId()).orElse(null).getWagonClass());
+            wagonClasses.add(wagonTypeDao.findById(wagon.getWagonTypeId())
+                    .orElseThrow(() -> new WagonTypeException("WagonType not found")).getWagonClass());
         });
 
         return wagonClasses;

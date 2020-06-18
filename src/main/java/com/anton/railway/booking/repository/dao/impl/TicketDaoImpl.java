@@ -1,5 +1,6 @@
 package com.anton.railway.booking.repository.dao.impl;
 
+import com.anton.railway.booking.exception.DaoException;
 import com.anton.railway.booking.repository.dao.TicketDao;
 import com.anton.railway.booking.repository.entity.Ticket;
 import org.apache.logging.log4j.LogManager;
@@ -45,7 +46,8 @@ public class TicketDaoImpl implements TicketDao {
                 ticket.setPaymentId(rs.getLong("payment_id"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of ticket failed. ", e);
+            throw new DaoException("Can't find ticket by id: " + e.getMessage(), e);
         }
 
         return Optional.ofNullable(ticket);
@@ -65,7 +67,8 @@ public class TicketDaoImpl implements TicketDao {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Saving of ticket failed. ", e);
+            throw new DaoException("Can't save ticket: " + e.getMessage(), e);
         }
 
         return ticket.getTicketId();
@@ -83,7 +86,8 @@ public class TicketDaoImpl implements TicketDao {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Deletion of ticket failed. ", e);
+            throw new DaoException("Can't delete ticket: " + e.getMessage(), e);
         }
     }
 
@@ -102,7 +106,8 @@ public class TicketDaoImpl implements TicketDao {
                 ticket.setPaymentId(rs.getLong("payment_id"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of ticket failed. ", e);
+            throw new DaoException("Can't find ticket by tripSeatId: " + e.getMessage(), e);
         }
 
         return ticket;
@@ -126,7 +131,8 @@ public class TicketDaoImpl implements TicketDao {
                 tickets.add(ticket);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of tickets failed. ", e);
+            throw new DaoException("Can't find tickets by paymentId: " + e.getMessage(), e);
         }
 
         return tickets;

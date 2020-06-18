@@ -1,5 +1,6 @@
 package com.anton.railway.booking.service.impl;
 
+import com.anton.railway.booking.exception.StationException;
 import com.anton.railway.booking.repository.dao.StationDao;
 import com.anton.railway.booking.repository.entity.Station;
 import com.anton.railway.booking.service.StationService;
@@ -20,7 +21,7 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public Station findById(Long id) {
-        return stationDao.findById(id).orElse(null);
+        return stationDao.findById(id).orElseThrow(() -> new StationException("Station not found"));
     }
 
     @Override

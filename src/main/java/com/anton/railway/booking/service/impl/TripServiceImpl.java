@@ -1,8 +1,18 @@
 package com.anton.railway.booking.service.impl;
 
-import com.anton.railway.booking.repository.dao.*;
+import com.anton.railway.booking.exception.RouteException;
+import com.anton.railway.booking.exception.StationException;
+import com.anton.railway.booking.exception.TrainException;
+import com.anton.railway.booking.exception.TripException;
+import com.anton.railway.booking.repository.dao.RouteDao;
+import com.anton.railway.booking.repository.dao.StationDao;
+import com.anton.railway.booking.repository.dao.TrainDao;
+import com.anton.railway.booking.repository.dao.TripDao;
 import com.anton.railway.booking.repository.dto.TripDto;
-import com.anton.railway.booking.repository.entity.*;
+import com.anton.railway.booking.repository.entity.Route;
+import com.anton.railway.booking.repository.entity.Station;
+import com.anton.railway.booking.repository.entity.Train;
+import com.anton.railway.booking.repository.entity.Trip;
 import com.anton.railway.booking.repository.entity.enums.TripStatus;
 import com.anton.railway.booking.service.TripService;
 
@@ -32,7 +42,7 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public Trip findById(Long id) {
-        return tripDao.findById(id).orElse(null);
+        return tripDao.findById(id).orElseThrow(() -> new TripException("Trip not found"));
     }
 
     @Override
@@ -97,10 +107,14 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public TripDto convertTripToTripDto(Trip trip) {
-        Train train = trainDao.findById(trip.getTrainId()).orElse(null);
-        Route route = routeDao.findById(trip.getRouteId()).orElse(null);
-        Station departureStation = stationDao.findById(route.getDepartureStationId()).orElse(null);
-        Station arrivalStation = stationDao.findById(route.getArrivalStationId()).orElse(null);
+        Train train = trainDao.findById(trip.getTrainId()).orElseThrow(() ->
+                new TrainException("Train not found"));
+        Route route = routeDao.findById(trip.getRouteId()).orElseThrow(() ->
+                new RouteException("Route not found"));
+        Station departureStation = stationDao.findById(route.getDepartureStationId())
+                .orElseThrow(() -> new StationException("Station not found"));
+        Station arrivalStation = stationDao.findById(route.getArrivalStationId())
+                .orElseThrow(() -> new StationException("Station not found"));
 
         LocalDateTime departure = LocalDateTime.of(trip.getDepartureDate(), trip.getDepartureTime());
         LocalDateTime arrival = departure.plusMinutes(route.getDurationInMinutes());
@@ -115,6 +129,4 @@ public class TripServiceImpl implements TripService {
                 .durationInMinutes(route.getDurationInMinutes())
                 .minPrice(route.getBasePrice().setScale(2, RoundingMode.HALF_UP)).build();
     }
-
-
 }

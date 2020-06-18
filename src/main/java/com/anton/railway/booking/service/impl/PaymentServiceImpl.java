@@ -1,5 +1,6 @@
 package com.anton.railway.booking.service.impl;
 
+import com.anton.railway.booking.exception.PaymentException;
 import com.anton.railway.booking.repository.dao.PaymentDao;
 import com.anton.railway.booking.repository.dto.TicketDto;
 import com.anton.railway.booking.repository.entity.Payment;
@@ -28,7 +29,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment findById(Long id) {
-        return paymentDao.findById(id).orElse(null);
+        return paymentDao.findById(id).orElseThrow(() -> new PaymentException("Payment not found"));
     }
 
     @Override

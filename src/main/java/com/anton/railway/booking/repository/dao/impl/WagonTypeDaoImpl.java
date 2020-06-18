@@ -1,5 +1,6 @@
 package com.anton.railway.booking.repository.dao.impl;
 
+import com.anton.railway.booking.exception.DaoException;
 import com.anton.railway.booking.repository.dao.WagonTypeDao;
 import com.anton.railway.booking.repository.entity.WagonType;
 import com.anton.railway.booking.repository.entity.enums.WagonClass;
@@ -39,7 +40,8 @@ public class WagonTypeDaoImpl implements WagonTypeDao {
                 wagonType.setPriceCoefficient(rs.getBigDecimal("price_coefficient"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of wagon type failed. ", e);
+            throw new DaoException("Can't find wagon type by id: " + e.getMessage(), e);
         }
 
         return Optional.ofNullable(wagonType);

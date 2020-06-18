@@ -1,5 +1,6 @@
 package com.anton.railway.booking.repository.dao.impl;
 
+import com.anton.railway.booking.exception.DaoException;
 import com.anton.railway.booking.repository.dao.SeatDao;
 import com.anton.railway.booking.repository.entity.Seat;
 import com.anton.railway.booking.repository.entity.Wagon;
@@ -39,7 +40,8 @@ public class SeatDaoImpl implements SeatDao {
                 seat.setWagonId(rs.getLong("wagon_id"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of seat failed. ", e);
+            throw new DaoException("Can't find seat by id: " + e.getMessage(), e);
         }
 
         return Optional.ofNullable(seat);
@@ -80,7 +82,8 @@ public class SeatDaoImpl implements SeatDao {
                 seat.setWagonId(rs.getLong("wagon_id"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of seats for wagon failed. ", e);
+            throw new DaoException("Can't find seats by wagonId: " + e.getMessage(), e);
         }
 
         return seats;

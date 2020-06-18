@@ -1,5 +1,6 @@
 package com.anton.railway.booking.repository.dao.impl;
 
+import com.anton.railway.booking.exception.DaoException;
 import com.anton.railway.booking.repository.dao.UserDao;
 import com.anton.railway.booking.repository.entity.User;
 import com.anton.railway.booking.repository.entity.enums.AccountStatus;
@@ -47,7 +48,8 @@ public class UserDaoImpl implements UserDao {
                 user.setAccountStatus(AccountStatus.valueOf(rs.getString("account_status")));
             }
         } catch (SQLException e) {
-            LOG.error("User extraction failed.", e);
+            LOG.error("Extraction of user failed. ", e);
+            throw new DaoException("Can't find user by id: " + e.getMessage(), e);
         }
         return Optional.ofNullable(user);
     }
@@ -80,7 +82,8 @@ public class UserDaoImpl implements UserDao {
                 id = rs.getLong(1);
             }
         } catch (SQLException e) {
-            LOG.error("New user creation failed.", e);
+            LOG.error("Saving of user failed. ", e);
+            throw new DaoException("Can't save user: " + e.getMessage(), e);
         }
         return id;
     }
@@ -107,6 +110,7 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             LOG.error("Username verification failed.", e);
+            throw new DaoException("Can't find username: " + e.getMessage(), e);
         }
 
         return id;
@@ -124,6 +128,7 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             LOG.error("Unsuccessful password verification.", e);
+            throw new DaoException("Can't find password for username: " + e.getMessage(), e);
         }
         return password;
     }

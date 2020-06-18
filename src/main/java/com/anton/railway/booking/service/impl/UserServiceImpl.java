@@ -1,5 +1,6 @@
 package com.anton.railway.booking.service.impl;
 
+import com.anton.railway.booking.exception.UserException;
 import com.anton.railway.booking.repository.dao.UserDao;
 import com.anton.railway.booking.repository.entity.User;
 import com.anton.railway.booking.repository.entity.enums.AccountStatus;
@@ -25,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) {
-        return userDao.findById(id).orElse(null);
+        return userDao.findById(id).orElseThrow(() -> new UserException("User not found"));
     }
 
     @Override

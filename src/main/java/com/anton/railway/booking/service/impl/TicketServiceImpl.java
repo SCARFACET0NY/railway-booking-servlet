@@ -1,5 +1,6 @@
 package com.anton.railway.booking.service.impl;
 
+import com.anton.railway.booking.exception.*;
 import com.anton.railway.booking.repository.dao.*;
 import com.anton.railway.booking.repository.dto.PaidTicket;
 import com.anton.railway.booking.repository.dto.TicketDto;
@@ -42,7 +43,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public Ticket findById(Long id) {
-        return ticketDao.findById(id).orElse(null);
+        return ticketDao.findById(id).orElseThrow(() -> new TicketException("Ticket not found"));
     }
 
     @Override
@@ -57,9 +58,11 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public void deleteById(Long id) {
-        Ticket ticket = ticketDao.findById(id).orElse(null);
-        TripSeat tripSeat = tripSeatDao.findById(ticket.getTripSeatId()).orElse(null);
-        Payment payment = paymentDao.findById(ticket.getPaymentId()).orElse(null);
+        Ticket ticket = ticketDao.findById(id).orElseThrow(() -> new TicketException("Ticket not found"));
+        TripSeat tripSeat = tripSeatDao.findById(ticket.getTripSeatId()).orElseThrow(() ->
+                new TripSeatException("TripSeat not found"));
+        Payment payment = paymentDao.findById(ticket.getPaymentId()).orElseThrow(() ->
+                new PaymentException("Payment not found"));
 
         List<Ticket> tickets = ticketDao.findTicketsByPaymentId(ticket.getPaymentId());
         tripSeat.setSeatStatus(SeatStatus.FREE);
@@ -79,7 +82,8 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Ticket createTicket(TripDto tripDto, Wagon wagon, TripSeat tripSeat) {
         BigDecimal price = tripDto.getMinPrice()
-                .multiply(wagonTypeDao.findById(wagon.getWagonTypeId()).orElse(null).getPriceCoefficient())
+                .multiply(wagonTypeDao.findById(wagon.getWagonTypeId()).orElseThrow(() ->
+                        new WagonTypeException("WagonType not found")).getPriceCoefficient())
                 .setScale(2, RoundingMode.HALF_UP);
         return Ticket.builder()
                 .tripSeatId(tripSeat.getTripSeatId())
@@ -98,16 +102,17 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Ticket changeTicketPrice(Ticket ticket, Wagon oldWagon, Wagon newWagon) {
         if (!oldWagon.getWagonTypeId().equals(newWagon.getWagonTypeId())) {
-            BigDecimal oldPriceCoefficient = wagonTypeDao
-                    .findById(oldWagon.getWagonTypeId()).orElse(null).getPriceCoefficient();
-            BigDecimal newPriceCoefficient = wagonTypeDao
-                    .findById(newWagon.getWagonTypeId()).orElse(null).getPriceCoefficient();
+            BigDecimal oldPriceCoefficient = wagonTypeDao.findById(oldWagon.getWagonTypeId())
+                    .orElseThrow(() -> new WagonTypeException("WagonType not found")).getPriceCoefficient();
+            BigDecimal newPriceCoefficient = wagonTypeDao.findById(newWagon.getWagonTypeId())
+                    .orElseThrow(() -> new WagonTypeException("WagonType not found")).getPriceCoefficient();
             BigDecimal oldPrice = ticket.getPrice();
 
             ticket.setPrice(ticket.getPrice().divide(oldPriceCoefficient).multiply(newPriceCoefficient));
             BigDecimal newPrice = ticket.getPrice();
 
-            Payment payment = paymentDao.findById(ticket.getPaymentId()).orElse(null);
+            Payment payment = paymentDao.findById(ticket.getPaymentId())
+                    .orElseThrow(() -> new PaymentException("Payment not found"));
             payment.setTotal(payment.getTotal().add(newPrice.subtract(oldPrice)));
 
             paymentDao.save(payment);
@@ -121,11 +126,15 @@ public class TicketServiceImpl implements TicketService {
         List<PaidTicket> paidTickets = new ArrayList<>();
         tripSeatDao.findTripSeatsForTripByStatusPaged(
                 id, SeatStatus.OCCUPIED, ROWS_PER_PAGE * pageNumber, ROWS_PER_PAGE).forEach(tripSeat -> {
-            Seat seat = seatDao.findById(tripSeat.getSeatId()).orElse(null);
-            Wagon wagon = wagonDao.findById(seat.getWagonId()).orElse(null);
-            WagonClass wagonClass = wagonTypeDao.findById(wagon.getWagonTypeId()).orElse(null).getWagonClass();
+            Seat seat = seatDao.findById(tripSeat.getSeatId())
+                    .orElseThrow(() -> new SeatException("Seat not found"));
+            Wagon wagon = wagonDao.findById(seat.getWagonId())
+                    .orElseThrow(() -> new WagonException("Wagon not found"));
+            WagonClass wagonClass = wagonTypeDao.findById(wagon.getWagonTypeId())
+                    .orElseThrow(() -> new WagonTypeException("WagonType not found")).getWagonClass();
             Ticket ticket = ticketDao.findTicketByTripSeatId(tripSeat.getTripSeatId());
-            Payment payment = paymentDao.findById(ticket.getPaymentId()).orElse(null);
+            Payment payment = paymentDao.findById(ticket.getPaymentId())
+                    .orElseThrow(() -> new WagonTypeException("WagonType not found"));
             User user = userDao.findById(payment.getUserId()).orElse(null);
 
             paidTickets.add(PaidTicket.builder()

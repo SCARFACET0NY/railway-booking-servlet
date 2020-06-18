@@ -1,5 +1,6 @@
 package com.anton.railway.booking.repository.dao.impl;
 
+import com.anton.railway.booking.exception.DaoException;
 import com.anton.railway.booking.repository.dao.RouteDao;
 import com.anton.railway.booking.repository.entity.Route;
 import org.apache.logging.log4j.LogManager;
@@ -40,7 +41,8 @@ public class RouteDaoImpl implements RouteDao {
                 route.setCode(rs.getString("code"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of route failed. ", e);
+            throw new DaoException("Can't find route by id: " + e.getMessage(), e);
         }
 
         return Optional.ofNullable(route);

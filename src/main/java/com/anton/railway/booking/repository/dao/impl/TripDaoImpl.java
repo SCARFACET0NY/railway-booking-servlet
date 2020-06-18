@@ -1,5 +1,6 @@
 package com.anton.railway.booking.repository.dao.impl;
 
+import com.anton.railway.booking.exception.DaoException;
 import com.anton.railway.booking.repository.dao.TripDao;
 import com.anton.railway.booking.repository.entity.Trip;
 import com.anton.railway.booking.repository.entity.enums.TripStatus;
@@ -56,7 +57,8 @@ public class TripDaoImpl implements TripDao {
                 trip.setTrainId(rs.getLong("train_id"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of trip failed. ", e);
+            throw new DaoException("Can't find trip by id: " + e.getMessage(), e);
         }
 
         return Optional.ofNullable(trip);
@@ -102,7 +104,8 @@ public class TripDaoImpl implements TripDao {
                 trips.add(trip);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of trips failed. ", e);
+            throw new DaoException("Can't find tickets by TripStatus: " + e.getMessage(), e);
         }
 
         return trips;
@@ -129,7 +132,8 @@ public class TripDaoImpl implements TripDao {
                 trips.add(trip);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of trips failed. ", e);
+            throw new DaoException("Can't find tickets by TripStatus and date: " + e.getMessage(), e);
         }
 
         return trips;
@@ -156,7 +160,8 @@ public class TripDaoImpl implements TripDao {
                 trips.add(trip);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of trips failed. ", e);
+            throw new DaoException("Can't find tickets by departure and arrival cities: " + e.getMessage(), e);
         }
 
         return trips;
@@ -184,7 +189,8 @@ public class TripDaoImpl implements TripDao {
                 trips.add(trip);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of trips failed. ", e);
+            throw new DaoException("Can't find tickets by departure and arrival cities and date: " + e.getMessage(), e);
         }
 
         return trips;

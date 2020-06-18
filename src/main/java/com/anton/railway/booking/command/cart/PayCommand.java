@@ -32,7 +32,7 @@ public class PayCommand implements Command {
             req.getSession().setAttribute("cart", null);
             req.getSession().setAttribute("total", null);
 
-            return "redirect:sendEmail";
+            return "redirect:sendMail";
         }
 
         return "redirect:";

@@ -1,5 +1,6 @@
 package com.anton.railway.booking.repository.dao.impl;
 
+import com.anton.railway.booking.exception.DaoException;
 import com.anton.railway.booking.repository.dao.PaymentDao;
 import com.anton.railway.booking.repository.entity.Payment;
 import com.anton.railway.booking.repository.entity.Ticket;
@@ -44,7 +45,8 @@ public class PaymentDaoImpl implements PaymentDao {
                 payment.setUserId(rs.getLong("user_id"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Extraction of payment failed. ", e);
+            throw new DaoException("Can't find payment by id: " + e.getMessage(), e);
         }
 
         return Optional.ofNullable(payment);
@@ -63,7 +65,8 @@ public class PaymentDaoImpl implements PaymentDao {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Saving of payment failed. ", e);
+            throw new DaoException("Can't save payment: " + e.getMessage(), e);
         }
 
         return payment.getPaymentId();
@@ -80,7 +83,8 @@ public class PaymentDaoImpl implements PaymentDao {
             preparedStatement.setLong(1, payment.getPaymentId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Deletion of payment failed. ", e);
+            throw new DaoException("Can't delete payment: " + e.getMessage(), e);
         }
     }
 
@@ -128,7 +132,7 @@ public class PaymentDaoImpl implements PaymentDao {
             } catch (SQLException se) {
                 LOG.error("Transaction rollback failed", se);
             }
-            throw new RuntimeException("Can't create payment with tickets: " + e.getMessage(), e);
+            throw new DaoException("Can't save payment with tickets: " + e.getMessage(), e);
         }
 
         return id;
