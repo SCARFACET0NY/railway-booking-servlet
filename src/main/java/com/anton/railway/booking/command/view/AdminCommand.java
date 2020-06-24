@@ -19,7 +19,7 @@ public class AdminCommand implements Command {
     @Override
     public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
-        Trip trip = (Trip) req.getSession().getAttribute("selectedTrip");
+        Trip trip = (Trip) session.getAttribute("selectedTrip");
 
         if (trip != null) {
             int pageNumber = req.getParameter("page") == null ?

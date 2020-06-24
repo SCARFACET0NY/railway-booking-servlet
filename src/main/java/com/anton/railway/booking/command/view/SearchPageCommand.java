@@ -11,7 +11,7 @@ public class SearchPageCommand implements Command {
     public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (req.getSession().getAttribute("mailSuccess") != null) {
             req.setAttribute("mailSuccess", req.getSession().getAttribute("mailSuccess"));
-            req.getSession().setAttribute("mailSuccess", null);
+            req.getSession().removeAttribute("mailSuccess");
         }
 
         return "index";
