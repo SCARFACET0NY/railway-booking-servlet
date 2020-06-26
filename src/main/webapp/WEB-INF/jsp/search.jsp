@@ -4,22 +4,21 @@
 
 <fmt:setLocale value="${sessionScope.lang}" scope="application"/>
 <fmt:setBundle basename="application" var="message"/>
-
 <div class="search">
     <div class="container">
         <h2><fmt:message bundle="${message}" key="booking.search.trains"/></h2>
         <form method="get" action="/search">
             <div class="row">
                 <div class="col-md-3">
-                    <label for="departure">Departure City:</label>
+                    <label for="departure"><fmt:message bundle="${message}" key="booking.search.departure"/>:</label>
                     <input id="departure" type="text" class="form-control" name="departure">
                 </div>
                 <div class="col-md-3">
-                    <label for="arrival">Arrival City:</label>
+                    <label for="arrival"><fmt:message bundle="${message}" key="booking.search.arrival"/>:</label>
                     <input id="arrival" type="text" class="form-control" name="arrival">
                 </div>
                 <div class="col-md-3">
-                    <label for="date">Date:</label>
+                    <label for="date"><fmt:message bundle="${message}" key="booking.search.date"/>:</label>
                     <input id="date" type="date" class="form-control" name="date">
                 </div>
                 <div class="col-md-3">
@@ -35,7 +34,7 @@
 
 <c:if test="${not empty trips}">
     <div class="container">
-        <h2>Trains</h2>
+        <h2><fmt:message bundle="${message}" key="booking.trains"/></h2>
         <jsp:include page="schedule-table.jsp"/>
     </div>
 </c:if>

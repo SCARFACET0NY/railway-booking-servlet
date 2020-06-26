@@ -30,10 +30,10 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
                             <span>
-                                ${not empty total ? total : '0.00'} uah
+                                ${not empty total ? total : '0.00'} <fmt:message bundle="${message}" key="booking.uah"/>
                             </span><br/>
                             <span>
-                                ${not empty cart ? cart.size() : 0} tickets
+                                ${not empty cart ? cart.size() : 0} <fmt:message bundle="${message}" key="booking.tickets.small"/>
                             </span>
                         </button>
                         <div class="dropdown-menu">
@@ -43,25 +43,25 @@
                                 <div class="dropdown-divider"></div>
                             </c:forEach>
                             <span class="dropdown-item">
-                                total: ${sessionScope.total}
+                                <fmt:message bundle="${message}" key="booking.total"/>: ${sessionScope.total}
                             </span>
                         </div>
                     </div>
 
                     <button type="button" class="btn btn-info">
                         <a href="cart" class="nav-link text-light">
-                            Checkout
+                            <fmt:message bundle="${message}" key="booking.checkout"/>
                         </a>
                     </button>
                 </div>
 
                 <c:if test="${user.accountStatus == 'ADMIN'}">
                     <a type="button" class="btn btn-light btn-lg" href="/admin">
-                        Admin
+                        <fmt:message bundle="${message}" key="booking.admin"/>
                     </a>
                 </c:if>
                 <a type="button" class="btn btn-light btn-lg" href="/logout">
-                    Logout
+                    <fmt:message bundle="${message}" key="booking.logout"/>
                 </a>
             </c:when>
             <c:otherwise>

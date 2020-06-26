@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
-    <title>Trip</title>
+    <title><fmt:message bundle="${message}" key="booking.trip"/></title>
 </head>
 <body>
     <jsp:include page="header.jsp"/>
@@ -24,7 +24,7 @@
                 <div class="col-md-4">
                     <form method="get" action="/setWagonClass">
                         <div class="form-group">
-                            <label for="wagon_class">Wagon Class:</label>
+                            <label for="wagon_class"><fmt:message bundle="${message}" key="booking.ticket.wagon.class"/>:</label>
                             <select id="wagon_class" name="wagon_class" class="form-control">
                                 <c:forEach items="${sessionScope.wagonClasses}" var="wagonClass">
                                     <option value="${wagonClass}"
@@ -34,14 +34,16 @@
                                 </c:forEach>
                             </select>
                         </div>
-                        <button class="btn btn-lg btn-info btn-block" type="submit">Choose Class</button>
+                        <button class="btn btn-lg btn-info btn-block" type="submit">
+                            <fmt:message bundle="${message}" key="booking.choose.class"/>
+                        </button>
                     </form>
                 </div>
                 <div class="col-md-4">
                     <c:if test="${not empty sessionScope.wagons}">
                         <form method="get" action="/setWagon">
                             <div class="form-group">
-                                <label for="wagon_id">Wagon Number:</label>
+                                <label for="wagon_id"><fmt:message bundle="${message}" key="booking.ticket.wagon.number"/>:</label>
                                 <select id="wagon_id" name="wagon_id" class="form-control">
                                     <c:forEach items="${sessionScope.wagons}" var="wagon">
                                         <option value="${wagon.wagonId}"
@@ -50,7 +52,9 @@
                                     </c:forEach>
                                 </select>
                             </div>
-                            <button class="btn btn-lg btn-info btn-block" type="submit">Choose Wagon</button>
+                            <button class="btn btn-lg btn-info btn-block" type="submit">
+                                <fmt:message bundle="${message}" key="booking.choose.wagon"/>
+                            </button>
                         </form>
                     </c:if>
                 </div>
@@ -58,7 +62,7 @@
                     <c:if test="${not empty sessionScope.seats}">
                         <form method="get" action="/setSeat">
                             <div class="form-group">
-                                <label for="seat_id">Seat Number:</label>
+                                <label for="seat_id"><fmt:message bundle="${message}" key="booking.ticket.seat.number"/>:</label>
                                 <select id="seat_id" name="seat_id" class="form-control">
                                     <c:forEach items="${sessionScope.seats}" var="seat">
                                         <option value="${seat.tripSeat.tripSeatId}"
@@ -67,7 +71,9 @@
                                     </c:forEach>
                                 </select>
                             </div>
-                            <button class="btn btn-lg btn-info btn-block" type="submit">Choose Seat</button>
+                            <button class="btn btn-lg btn-info btn-block" type="submit">
+                                <fmt:message bundle="${message}" key="booking.choose.seat"/>
+                            </button>
                         </form>
                     </c:if>
                 </div>
@@ -75,7 +81,9 @@
             <div class="show-ticket">
                 <c:if test="${not empty sessionScope.selectedSeat}">
                     <form method="get" action="/showTicket">
-                        <button type="submit" class="btn btn-lg btn-dark btn-block">Show Ticket</button>
+                        <button type="submit" class="btn btn-lg btn-dark btn-block">
+                            <fmt:message bundle="${message}" key="booking.ticket.show"/>
+                        </button>
                     </form>
                 </c:if>
             </div>
@@ -87,16 +95,16 @@
             <table class="table table-hover">
                 <thead class="bg-info text-dark">
                     <tr>
-                        <th>Train Number</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Departure</th>
-                        <th>Arrival</th>
-                        <th>Duration</th>
-                        <th>Wagon Number</th>
-                        <th>Seat Number</th>
-                        <th>Price</th>
-                        <th>Action</th>
+                        <th><fmt:message bundle="${message}" key="booking.ticket.train.number"/></th>
+                        <th><fmt:message bundle="${message}" key="booking.ticket.city.from"/></th>
+                        <th><fmt:message bundle="${message}" key="booking.ticket.city.to"/></th>
+                        <th><fmt:message bundle="${message}" key="booking.ticket.time.departure"/></th>
+                        <th><fmt:message bundle="${message}" key="booking.ticket.time.arrival"/></th>
+                        <th><fmt:message bundle="${message}" key="booking.trip.duration"/></th>
+                        <th><fmt:message bundle="${message}" key="booking.ticket.wagon.number"/></th>
+                        <th><fmt:message bundle="${message}" key="booking.ticket.seat.number"/></th>
+                        <th><fmt:message bundle="${message}" key="booking.ticket.price"/></th>
+                        <th><fmt:message bundle="${message}" key="booking.ticket.action"/></th>
                     </tr>
                 </thead>
                 <tbody class="bg-dark text-light">
@@ -112,7 +120,9 @@
                         <td>${sessionScope.ticket.price}</td>
                         <td>
                             <form method="post" action="/addTicket">
-                                <button type="submit" class="btn btn-info">Add to Cart</button>
+                                <button type="submit" class="btn btn-info">
+                                    <fmt:message bundle="${message}" key="booking.cart.add"/>
+                                </button>
                             </form>
                         </td>
                     </tr>

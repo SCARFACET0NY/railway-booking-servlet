@@ -2,16 +2,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<fmt:setLocale value="${sessionScope.lang}" scope="application"/>
+<fmt:setBundle basename="application" var="message"/>
 <table class="table table-hover">
     <thead class="bg-info text-dark">
         <tr>
-            <th>Train Number</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Departure</th>
-            <th>Arrival</th>
-            <th>Prices from</th>
-            <th>Action</th>
+            <th><fmt:message bundle="${message}" key="booking.ticket.train.number"/></th>
+            <th><fmt:message bundle="${message}" key="booking.ticket.city.from"/></th>
+            <th><fmt:message bundle="${message}" key="booking.ticket.city.to"/></th>
+            <th><fmt:message bundle="${message}" key="booking.ticket.time.departure"/></th>
+            <th><fmt:message bundle="${message}" key="booking.ticket.time.arrival"/></th>
+            <th><fmt:message bundle="${message}" key="booking.ticket.price.from"/></th>
+            <th><fmt:message bundle="${message}" key="booking.ticket.action"/></th>
         </tr>
     </thead>
     <tbody class="bg-dark text-light">
@@ -28,7 +30,9 @@
                 <td>
                     <form method="get" action="/setTrip">
                         <input type="hidden" name="trip_id" value="${trip.trip.tripId}">
-                        <button class="btn btn-info" type="submit">Buy Ticket</button>
+                        <button class="btn btn-info" type="submit">
+                            <fmt:message bundle="${message}" key="booking.ticket.buy"/>
+                        </button>
                     </form>
                 </td>
             </tr>

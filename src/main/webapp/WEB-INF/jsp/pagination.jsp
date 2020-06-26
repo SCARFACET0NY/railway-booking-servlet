@@ -2,13 +2,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+<fmt:setLocale value="${sessionScope.lang}" scope="application"/>
 <fmt:setBundle basename="application" var="message"/>
 
 <c:if test="${not empty sessionScope.paidTickets}">
     <ul class="pagination">
         <li class="page-item">
             <a class="page-link" <c:out value="${sessionScope.page > 0 ? 'href' : ''}" />
-            ="${request.requestURL}?page=${sessionScope.page - 1}">Previous</a>
+            ="${request.requestURL}?page=${sessionScope.page - 1}">
+                <fmt:message bundle="${message}" key="booking.page.previous"/>
+            </a>
         </li>
         <c:forEach begin="0" end="${sessionScope.numOfPages}" varStatus="page">
             <li class="page-item">
@@ -18,7 +21,9 @@
         </c:forEach>
         <li class="page-item ">
             <a class="page-link" <c:out value="${sessionScope.page < sessionScope.numOfPages ? 'href' : ''}" />
-            ="${request.requestURL}?page=${sessionScope.page + 1}">Next</a>
+            ="${request.requestURL}?page=${sessionScope.page + 1}">
+                <fmt:message bundle="${message}" key="booking.page.next"/>
+            </a>
         </li>
     </ul>
 </c:if>

@@ -10,17 +10,19 @@
         <div class="col-md-6">
             <form method="get" action="/admin/chooseTripDate">
                 <div class="form-group">
-                    <label for="date">Choose Trip Date:</label>
+                    <label for="date"><fmt:message bundle="${message}" key="booking.choose.trip.date"/>:</label>
                     <input id="date" type="date" class="form-control" name="date" value="${sessionScope.date}">
                 </div>
-                <button class="btn btn-lg btn-info btn-block" type="submit">Choose Date</button>
+                <button class="btn btn-lg btn-info btn-block" type="submit">
+                    <fmt:message bundle="${message}" key="booking.choose.date"/>
+                </button>
             </form>
         </div>
 
         <div class="col-md-6">
             <form method="get" action="/admin/chooseTrip">
                 <div class="form-group">
-                    <label for="trip_id">Choose Trip:</label>
+                    <label for="trip_id"><fmt:message bundle="${message}" key="booking.choose.trip"/>:</label>
                     <select id="trip_id" name="trip_id" class="form-control">
                         <c:forEach items="${sessionScope.trips}" var="trip">
                             <option value="${trip.trip.tripId}"
@@ -31,7 +33,9 @@
                         </c:forEach>
                     </select>
                 </div>
-                <button class="btn btn-lg btn-info btn-block" type="submit">Choose Trip</button>
+                <button class="btn btn-lg btn-info btn-block" type="submit">
+                    <fmt:message bundle="${message}" key="booking.choose.trip"/>
+                </button>
             </form>
         </div>
     </div>

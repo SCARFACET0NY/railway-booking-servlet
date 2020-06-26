@@ -3,7 +3,6 @@
 
 <fmt:setLocale value="${sessionScope.lang}" scope="application"/>
 <fmt:setBundle basename="application" var="message"/>
-
 <nav class="navbar navbar-expand-sm bg-info justify-content-center sub-header">
     <ul class="navbar-nav">
         <li class="nav-item">

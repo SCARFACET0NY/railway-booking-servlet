@@ -17,7 +17,7 @@
     <jsp:include page="sub-header.jsp"/>
     <c:if test="${not empty requestScope.mailSuccess}">
         <div class="alert alert-success">
-            <strong>Payment success. Tickets were sent to ${sessionScope.user.email}</strong>
+            <strong><fmt:message bundle="${message}" key="booking.payment.success"/> ${sessionScope.user.email}</strong>
         </div>
     </c:if>
     <jsp:include page="search.jsp"/>
