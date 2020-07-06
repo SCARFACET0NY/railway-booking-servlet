@@ -25,7 +25,7 @@
                     <p><fmt:message bundle="${message}" key="booking.error.500"/></p>
                 </c:if>
             </div>
-            <a class="btn btn-info btn-block" href="/">Home</a>
+            <a class="btn btn-info btn-block" href="/"><fmt:message bundle="${message}" key="booking.home"/></a>
         </div>
     </div>
 </body>

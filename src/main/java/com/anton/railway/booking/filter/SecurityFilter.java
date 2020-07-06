@@ -8,15 +8,24 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Rejects unauthorized access or redirects to next filter in chain
  */
-@WebFilter(urlPatterns = "/*")
 public class SecurityFilter implements Filter {
+    private List<String> allowedURIs;
+    private String ADMIN;
+    private String HOME;
+    private String LOGIN;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        allowedURIs = Arrays.asList(filterConfig.getInitParameter("allowedURIs").split(", "));
+        ADMIN = filterConfig.getInitParameter("admin");
+        HOME = filterConfig.getInitParameter("home");
+        LOGIN = filterConfig.getInitParameter("login");
     }
 
     @Override
@@ -24,23 +33,17 @@ public class SecurityFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse res = (HttpServletResponse) servletResponse;
         User user = (User) req.getSession().getAttribute("user");
+        String requestUri = req.getRequestURI();
 
-        if (!req.getRequestURI().equals("/schedule")
-                && !req.getRequestURI().equals("/searchPage")
-                && !req.getRequestURI().startsWith("/search")
-                && !req.getRequestURI().startsWith("/css")
-                && !req.getRequestURI().startsWith("/img")
-                && !req.getRequestURI().equals("/login")
-                && !req.getRequestURI().equals("/register")
-                && !req.getRequestURI().equals("/")) {
-            if (req.getRequestURI().startsWith("/admin")) {
+        if (!checkIfUriIsAllowed(requestUri)) {
+            if (requestUri.startsWith(ADMIN)) {
                 if (user != null && user.getAccountStatus().equals(AccountStatus.ADMIN)) {
                     filterChain.doFilter(req, res);
                 } else {
-                    res.sendRedirect("/");
+                    res.sendRedirect(HOME);
                 }
             } else if (user == null) {
-                res.sendRedirect("/login");
+                res.sendRedirect(LOGIN);
             } else {
                 filterChain.doFilter(req, res);
             }
@@ -53,5 +56,9 @@ public class SecurityFilter implements Filter {
     @Override
     public void destroy() {
 
+    }
+
+    private boolean checkIfUriIsAllowed(String uri) {
+        return uri.equals(HOME) || allowedURIs.stream().anyMatch(uri::startsWith);
     }
 }

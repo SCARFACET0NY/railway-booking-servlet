@@ -13,6 +13,32 @@
     <url-pattern>/js/*</url-pattern>
   </servlet-mapping>
 
+  <filter>
+    <filter-name>SecurityFilter</filter-name>
+    <filter-class>com.anton.railway.booking.filter.SecurityFilter</filter-class>
+
+    <init-param>
+      <param-name>allowedURIs</param-name>
+      <param-value>/css, /img, /login, /register, /schedule, /search</param-value>
+    </init-param>
+    <init-param>
+      <param-name>home</param-name>
+      <param-value>/</param-value>
+    </init-param>
+    <init-param>
+      <param-name>admin</param-name>
+      <param-value>/admin</param-value>
+    </init-param>
+    <init-param>
+      <param-name>login</param-name>
+      <param-value>/login</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>SecurityFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
   <error-page>
     <error-code>404</error-code>
     <location>/WEB-INF/jsp/error.jsp</location>

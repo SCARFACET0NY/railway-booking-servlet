@@ -39,11 +39,14 @@
                         <div class="dropdown-menu">
                             <c:forEach items="${sessionScope.cart.values()}" var="ticket">
                                 <span class="dropdown-item">${ticket.tripDto.departureCity} -
-                                        ${ticket.tripDto.arrivalCity}: ${ticket.ticket.price}</span>
+                                        ${ticket.tripDto.arrivalCity}: ${ticket.ticket.price}
+                                    <fmt:message bundle="${message}" key="booking.uah"/>
+                                </span>
                                 <div class="dropdown-divider"></div>
                             </c:forEach>
                             <span class="dropdown-item">
                                 <fmt:message bundle="${message}" key="booking.total"/>: ${sessionScope.total}
+                                <fmt:message bundle="${message}" key="booking.uah"/>
                             </span>
                         </div>
                     </div>
