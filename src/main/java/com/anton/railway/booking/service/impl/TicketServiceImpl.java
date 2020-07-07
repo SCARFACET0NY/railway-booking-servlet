@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TicketServiceImpl implements TicketService {
-    public static final int ROWS_PER_PAGE = 10;
+    public static final int ROWS_PER_PAGE = 5;
     private final PaymentDao paymentDao;
     private final SeatDao seatDao;
     private final TripSeatDao tripSeatDao;

@@ -28,6 +28,8 @@ public class SendEmailCommand implements Command {
                 emailService.createEmailText(user, cart, total));
 
         cart.clear();
+        req.getSession().setAttribute("cart", null);
+        req.getSession().setAttribute("total", null);
         req.getSession().setAttribute("mailSuccess", "success");
 
         return "redirect:";

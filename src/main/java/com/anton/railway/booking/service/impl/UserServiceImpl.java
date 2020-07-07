@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Long registerUser(String firstName, String lastName, String phone, String email, LocalDateTime dateJoined,
-                             Long cardNumber, String userName, String password, AccountStatus status) {
+                             String cardNumber, String userName, String password, AccountStatus status) {
 
         User user = User.builder().firstName(firstName).lastName(lastName).phone(phone).email(email)
                 .dateJoined(dateJoined).cardNumber(cardNumber).username(userName).password(bCrypt.hash(password))

@@ -42,7 +42,7 @@ public class UserDaoImpl implements UserDao {
                 user.setPhone(rs.getString("phone"));
                 user.setEmail(rs.getString("email"));
                 user.setDateJoined(rs.getTimestamp("date_joined").toLocalDateTime());
-                user.setCardNumber(rs.getLong("card_number"));
+                user.setCardNumber(rs.getString("card_number"));
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
                 user.setAccountStatus(AccountStatus.valueOf(rs.getString("account_status")));
@@ -71,7 +71,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(3, user.getPhone());
             statement.setString(4, user.getEmail());
             statement.setTimestamp(5, Timestamp.valueOf(user.getDateJoined()));
-            statement.setLong(6, user.getCardNumber());
+            statement.setString(6, user.getCardNumber());
             statement.setString(7, user.getUsername());
             statement.setString(8, user.getPassword());
             statement.setString(9, user.getAccountStatus().toString());

@@ -29,8 +29,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public String createEmailText(User user, Map<Long, TicketDto> cart, BigDecimal total) {
-        String cardNumber = String.valueOf(user.getCardNumber());
-        String lastFourDigits = cardNumber.substring(cardNumber.length() - 4);
+        String lastFourDigits = user.getCardNumber().substring(user.getCardNumber().length() - 4);
 
         StringBuilder message = new StringBuilder("<h2>Tickets</h2>");
         for (TicketDto ticketDto : cart.values()) {

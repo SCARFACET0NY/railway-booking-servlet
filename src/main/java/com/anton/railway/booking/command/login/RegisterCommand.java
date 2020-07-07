@@ -21,7 +21,7 @@ public class RegisterCommand implements Command {
         if (req.getMethod().equals("POST")) {
             long id = userService.registerUser(req.getParameter("firstName"),
                     req.getParameter("lastName"), req.getParameter("phone"), req.getParameter("email"),
-                    LocalDateTime.now(), Long.parseLong(req.getParameter("cardNumber")), req.getParameter("userName"),
+                    LocalDateTime.now(), req.getParameter("cardNumber"), req.getParameter("userName"),
                     req.getParameter("password"), AccountStatus.CUSTOMER);
             if (id > 0) {
                 req.getSession().setAttribute("user", userService.findById(id));

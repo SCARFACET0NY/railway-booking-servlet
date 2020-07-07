@@ -11,11 +11,11 @@
             <div class="row">
                 <div class="col-md-3">
                     <label for="departure"><fmt:message bundle="${message}" key="booking.search.departure"/>:</label>
-                    <input id="departure" type="text" class="form-control" name="departure">
+                    <input id="departure" type="text" class="form-control" name="departure" required="required">
                 </div>
                 <div class="col-md-3">
                     <label for="arrival"><fmt:message bundle="${message}" key="booking.search.arrival"/>:</label>
-                    <input id="arrival" type="text" class="form-control" name="arrival">
+                    <input id="arrival" type="text" class="form-control" name="arrival" required="required">
                 </div>
                 <div class="col-md-3">
                     <label for="date"><fmt:message bundle="${message}" key="booking.search.date"/>:</label>
@@ -37,4 +37,7 @@
         <h2><fmt:message bundle="${message}" key="booking.trains"/></h2>
         <jsp:include page="schedule-table.jsp"/>
     </div>
+</c:if>
+<c:if test="${requestScope.trips.size() == 0}">
+    <h2><fmt:message bundle="${message}" key="booking.search.empty"/></h2>
 </c:if>

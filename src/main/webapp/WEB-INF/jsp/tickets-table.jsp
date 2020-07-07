@@ -47,6 +47,7 @@
                     </tr>
                     <tr id="collapse${loop.index}" class="collapse ${loop.index == sessionScope.index ? 'show' : ''}">
                         <c:set var="ticket" scope="request" value="${ticket}"/>
+                        <c:set var="loop" scope="request" value="${loop}"/>
                         <jsp:include page="place-change-dropdown.jsp"/>
                     </tr>
                 </c:forEach>

@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 public interface UserService extends CrudService<User, Long> {
     Long registerUser(String firstName, String lastName, String phone, String email, LocalDateTime dateJoined,
-                             Long cardNumber, String userName, String password, AccountStatus status);
+                             String cardNumber, String userName, String password, AccountStatus status);
 
     User getUserByUsername(String username);
 

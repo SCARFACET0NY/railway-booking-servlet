@@ -17,7 +17,7 @@ public class User {
     private String phone;
     private String email;
     private LocalDateTime dateJoined;
-    private Long cardNumber;
+    private String cardNumber;
     private String username;
     private String password;
     private AccountStatus accountStatus;
